@@ -16,8 +16,13 @@ void testApp::setup(){
 	//lets load a test image too
 	img.loadImage("ofTheo.jpg");
 	
+	
 	//lets setup some stupid particles
-		
+	for(int i = 0; i < 80; i++){
+		balls[i].setup(ofRandom(10, ofGetWidth() - 10), ofRandom(10, ofGetHeight()-10), ofRandom(5, 25));
+		balls[i].vel.x = ofRandom(1.5, 2.8);
+		balls[i].vel.y = ofRandom(1.5, 2.8);
+	}	
 	
 }
 
@@ -25,7 +30,12 @@ void testApp::setup(){
 void testApp::update(){	
 
 	ofBackground(20, 20, 20);
-	ofSetWindowShape(800, 600);	
+	ofSetWindowShape(800, 600);
+	
+	for(int i = 0; i < 80; i++){
+		balls[i].update(ofGetWidth(), ofGetHeight());
+	}
+	
 }
 //--------------------------------------------------------------
 void testApp::draw(){
@@ -44,6 +54,13 @@ void testApp::draw(){
 	ofSetHexColor(0xFF00FF);
 	ofRect(1, 1, ofGetWidth()-2, ofGetHeight()-2);
   
+	
+	//our particles
+ 	ofEnableAlphaBlending();
+	ofSetColor(255, 0, 255, 130);
+	ofFill();
+	for(int i = 0; i < 40; i++)balls[i].draw();
+ 	ofDisableAlphaBlending();
 
 	
 	//some text

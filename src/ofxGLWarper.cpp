@@ -2,11 +2,7 @@
 #include "stdio.h"
 #include "cv.h"
 
-/****
- Base on warping example by Theo Watson.
- modified and extended by Roy Macdonald.
- 
- ***//
+
 
 
 //--------------------------------------------------------------

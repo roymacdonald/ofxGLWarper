@@ -23,7 +23,6 @@ class testApp : public ofSimpleApp{
 		ofxGLWarper warper;
 	
 		ofImage img;
-		
 };
 
 #endif	

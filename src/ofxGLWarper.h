@@ -6,12 +6,6 @@
 #include "ofMain.h"
 
 
-/****
- Base on warping example by Theo Watson.
- modified and extended by Roy Macdonald.
- 
- ***//
-
 class ofxGLWarper{
 	
 public:
