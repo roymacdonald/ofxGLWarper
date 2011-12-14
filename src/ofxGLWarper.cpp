@@ -6,9 +6,10 @@
 
 
 //--------------------------------------------------------------
-void ofxGLWarper::setup(){	 
+void ofxGLWarper::setup(int _resX, int _resY){	 
 	//we run at 60 fps!
 	//ofSetVerticalSync(true);
+	ofUnregisterMouseEvents(this);
 	
 	corners[0].x = 0.0;
 	corners[0].y = 0.0;
@@ -29,6 +30,11 @@ void ofxGLWarper::setup(){
 		else myMatrix[i] = 1.0;
 	}
 	
+	width=_resX;
+	height=_resY;
+	whichCorner = -1;
+	
+	
 }
 //--------------------------------------------------------------
 bool ofxGLWarper::isActive(){
@@ -36,7 +42,7 @@ bool ofxGLWarper::isActive(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::activate(){
-	ofRegisterMouseEvents(this);
+	//ofRegisterMouseEvents(this);
 	active=true;
 }
 //--------------------------------------------------------------
@@ -62,18 +68,18 @@ void ofxGLWarper::processMatrices(){
 	//source coordinates as the dimensions of our window
 	cvsrc[0].x = 0;
 	cvsrc[0].y = 0;
-	cvsrc[1].x = ofGetWidth();
+	cvsrc[1].x = width;
 	cvsrc[1].y = 0;
-	cvsrc[2].x = ofGetWidth();
-	cvsrc[2].y = ofGetHeight();
+	cvsrc[2].x = width;
+	cvsrc[2].y = height;
 	cvsrc[3].x = 0;
-	cvsrc[3].y = ofGetHeight();			
+	cvsrc[3].y = height;			
 	
 	//corners are in 0.0 - 1.0 range
 	//so we scale up so that they are at the window's scale
 	for(int i = 0; i < 4; i++){
-		cvdst[i].x = corners[i].x  * (float)ofGetWidth();
-		cvdst[i].y = corners[i].y * (float) ofGetHeight();
+		cvdst[i].x = corners[i].x  * (float)width;
+		cvdst[i].y = corners[i].y * (float)height;
 	}
 	
 	//we create a matrix that will store the results
@@ -136,24 +142,35 @@ void ofxGLWarper::processMatrices(){
 	
 
 }
+
+
 //--------------------------------------------------------------
-void ofxGLWarper::draw(){
+void ofxGLWarper::begin(){
 	if (active) {
 		processMatrices();
 	}
+	glPushMatrix();
 	glMultMatrixf(myMatrix);
+}
+
+
+//--------------------------------------------------------------
+void ofxGLWarper::end(){
+	glPopMatrix();
 }
 
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 
-		float scaleX = (float)args.x / ofGetWidth();
-		float scaleY = (float)args.y / ofGetHeight();
+	
+		float scaleX = (float)args.x / width;
+		float scaleY = (float)args.y / height;
 		
 		if(whichCorner >= 0){
 			corners[whichCorner].x = scaleX;
 			corners[whichCorner].y = scaleY;			
 		}
+
 }
 
 //--------------------------------------------------------------
@@ -161,24 +178,95 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 	
 	float smallestDist = 1.0;
 	whichCorner = -1;
+	activate();
 
+	
 	for(int i = 0; i < 4; i++){
-		float distx = corners[i].x - (float)args.x/ofGetWidth();
-		float disty = corners[i].y - (float)args.y/ofGetHeight();
+		float distx = corners[i].x - (float)args.x/width;
+		float disty = corners[i].y - (float)args.y/height;
 		float dist  = sqrt( distx * distx + disty * disty);
 		
-		if(dist < smallestDist && dist < 0.1){
+		if(dist < smallestDist && dist < 0.5){
 			whichCorner = i;
 			smallestDist = dist;
 			cout << "Which corner: " << whichCorner <<endl;
 		}
+		cout << "No corner: " << smallestDist << "dist[i] " << dist<<endl<<endl ;
+		
 	}
+
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseReleased(ofMouseEventArgs &args){
 	whichCorner = -1;
+	deactivate();
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){
 	whichCorner = -1;
+	//deactivate();
+}
+
+
+//--------------------------------------------------------------
+ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z)
+{
+	ofVec4f mousePoint;
+	ofVec4f warpedPoint;
+	
+	// this is the point on the image which i want to know the coordinates inside the warped system ... 
+	mousePoint.x = x;
+	mousePoint.y = y;
+	mousePoint.z = 0.0;
+	mousePoint.w = 1.0;
+	
+	// i create a ofMatrix4x4 with the ofxGLWarper myMatrixData in column order
+	ofMatrix4x4 myOFmatrix = ofMatrix4x4(myMatrix[0], myMatrix[4],myMatrix[8],myMatrix[12],
+										 myMatrix[1], myMatrix[5],myMatrix[9], myMatrix[13],
+										 myMatrix[2], myMatrix[6],myMatrix[10],myMatrix[14],
+										 myMatrix[3],myMatrix[7],myMatrix[11],myMatrix[15]);
+	// do not invert the matrix 
+	ofMatrix4x4 invertedMyMatrix = myOFmatrix.getInverse();	
+	//ofMatrix4x4 invertedMyMatrix = myOFmatrix;
+	
+	// multiply both to get the point transformed by the matrix
+	warpedPoint = invertedMyMatrix * mousePoint ;
+	
+	// we need to normalize the value as described here : http://tech.groups.yahoo.com/group/OpenCV/message/80121
+	warpedPoint.x = warpedPoint.x / warpedPoint.w;
+	warpedPoint.y = warpedPoint.y / warpedPoint.w;
+	warpedPoint.z = warpedPoint.z / warpedPoint.w;
+	
+	return warpedPoint;
+}
+
+//--------------------------------------------------------------
+ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z)
+{
+	ofVec4f mousePoint;
+	ofVec4f warpedPoint;
+	
+	// this is the point inside the warped system which i want to know the coordinates on the image  ... 
+	mousePoint.x = x;
+	mousePoint.y = y;
+	mousePoint.z = 0.0;
+	mousePoint.w = 1.0;
+	
+	// i create a ofMatrix4x4 with the ofxGLWarper myMatrixData in column order
+	ofMatrix4x4 myOFmatrix = ofMatrix4x4(myMatrix[0], myMatrix[4],myMatrix[8],myMatrix[12],
+										 myMatrix[1], myMatrix[5],myMatrix[9], myMatrix[13],
+										 myMatrix[2], myMatrix[6],myMatrix[10],myMatrix[14],
+										 myMatrix[3],myMatrix[7],myMatrix[11],myMatrix[15]);
+	// invert the matrix 
+	//ofMatrix4x4 invertedMyMatrix = myOFmatrix.getInverse();	
+	ofMatrix4x4 invertedMyMatrix = myOFmatrix;
+	
+	// multiply both to get the point transformed by the matrix
+	warpedPoint = invertedMyMatrix * mousePoint ;
+	
+	warpedPoint.x = warpedPoint.x / warpedPoint.w;
+	warpedPoint.y = warpedPoint.y / warpedPoint.w;
+	warpedPoint.z = warpedPoint.z / warpedPoint.w;
+	
+	return warpedPoint;
 }
