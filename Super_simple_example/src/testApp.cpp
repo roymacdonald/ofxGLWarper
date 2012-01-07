@@ -28,6 +28,8 @@ void testApp::draw(){
 	
 	img.draw(70, 120);
 	
+	warper.end();// everything drawn after this call is not afected by the warp.
+	
 	ofDrawBitmapString("Just drag the corners of the image for it to warp.", 20, 100);
 	
 }

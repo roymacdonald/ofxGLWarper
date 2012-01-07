@@ -44,7 +44,7 @@ void testApp::draw(){
 					///el metodo draw de ofxGLWarper afecta a todos los elementos dibujados despues si.
 	
 	// -- NOW LETS DRAW!!!!!!  -----
-	
+	ofPushStyle();
 	//test an image
 	ofSetHexColor(0xAAAAAA);
 	img.draw(70, 120);
@@ -75,6 +75,13 @@ void testApp::draw(){
 
 	ofSetHexColor(0xFF00FF);
 	ttf2.drawString("warps images nicely too!", 80, 430);
+	
+	
+	warper.end();  /// this resets the projection warper so everything drawed after this is not afected by the warper.
+	ofPopStyle();	
+	
+	img.draw(ofGetWidth()/4, ofGetHeight()/4, 2*ofGetWidth()/4, 2*ofGetHeight()/4);
+	
 }
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){

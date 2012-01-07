@@ -1,9 +1,4 @@
 #include "ofxGLWarper.h"
-#include "stdio.h"
-#include "cv.h"
-
-
-
 
 //--------------------------------------------------------------
 void ofxGLWarper::setup(int _resX, int _resY){	 
@@ -25,16 +20,43 @@ void ofxGLWarper::setup(int _resX, int _resY){
 	
 	active=false;
 	
+	overCorner=false;
+	
+	doProcess=false;
+	
+	whichCorner =-1;
+	
+	lastCorner=-1;
+	
+	isKeyShift=false;
+	
+	normPix.x=1.0f/ofGetWidth();
+	normPix.y=1.0f/ofGetHeight();
+	
+	inc=normPix;
+	
 	for(int i = 0; i < 16; i++){
 		if(i % 5 != 0) myMatrix[i] = 0.0;
 		else myMatrix[i] = 1.0;
 	}
+	processMatrices();
 	
+	cout << "myMatrix:"<<endl;
+	for(int i=0; i<16; i++){
+		if(i%4==0){
+			cout << endl;
+		}
+		cout << ofToString(myMatrix[i])<<"   ";
+	
+<<<<<<< HEAD
 	width=_resX;
 	height=_resY;
 	whichCorner = -1;
 	
 	
+=======
+	}
+>>>>>>> nose
 }
 //--------------------------------------------------------------
 bool ofxGLWarper::isActive(){
@@ -42,13 +64,32 @@ bool ofxGLWarper::isActive(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::activate(){
+<<<<<<< HEAD
 	//ofRegisterMouseEvents(this);
+=======
+	ofRegisterMouseEvents(this);
+	ofRegisterKeyEvents(this);
+>>>>>>> nose
 	active=true;
 }
 //--------------------------------------------------------------
 void ofxGLWarper::deactivate(){
 	ofUnregisterMouseEvents(this);
+	ofUnregisterKeyEvents(this);
 	active=false;
+}
+//--------------------------------------------------------------
+bool ofxGLWarper::setSourceMatrix(CvPoint2D32f src[], int length){
+	if (length!=4) {
+		ofLog(OF_LOG_WARNING, "Can't set source matrix. Incorrect size. !=4");
+		return false;
+	}else {
+		for (int i=0; i<4; i++) {
+			cvsrc[i]=src[i];	
+		}
+		processMatrices();
+		return true;
+	}
 }
 //--------------------------------------------------------------
 void ofxGLWarper::processMatrices(){
@@ -61,7 +102,7 @@ void ofxGLWarper::processMatrices(){
 	
 	//we need our points as opencv points
 	//be nice to do this without opencv?
-	CvPoint2D32f cvsrc[4];
+	//CvPoint2D32f cvsrc[4];
 	CvPoint2D32f cvdst[4];	
 	
 	//we set the warp coordinates
@@ -145,14 +186,67 @@ void ofxGLWarper::processMatrices(){
 
 
 //--------------------------------------------------------------
+<<<<<<< HEAD
 void ofxGLWarper::begin(){
 	if (active) {
 		processMatrices();
 	}
 	glPushMatrix();
+=======
+void ofxGLWarper::update(){}
+//--------------------------------------------------------------
+void ofxGLWarper::draw(){
+	if (active){
+		if(overCorner || doProcess) {
+			processMatrices();
+		}
+	}
+	ofPushMatrix();
+>>>>>>> nose
 	glMultMatrixf(myMatrix);
 }
+//--------------------------------------------------------------
+void ofxGLWarper::end(){
+	if (whichCorner>=0) {
+		ofPushStyle();
+		ofEnableAlphaBlending();
+		if (overCorner) {
+			ofSetColor(255, 100, 0, 180);
+		}else {
+			ofSetColor(255, 100, 0, 40);
+		}
+		switch (whichCorner) {
+			case 0:
+				ofCircle(0, 0, 50);
+				break;
+			case 1:
+				ofCircle(ofGetWidth(), 0, 50);
+				break;
+			case 2:
+				ofCircle(ofGetWidth(),ofGetHeight(),  50);
+				break;
+			case 3:
+				ofCircle(0, ofGetHeight(), 50);
+				break;
+			default:
+				break;
+		}
+		ofPopStyle();
+		
+		
+	}
+	ofPopMatrix();	
+}
+//--------------------------------------------------------------
+void ofxGLWarper::keyPressed(ofKeyEventArgs &key){
+	/*
+		isKeyShift=true;
+		cout << "Shift pressed."<<endl;
+	}else {
+		isKeyShift=false;
+	}
 
+<<<<<<< HEAD
 
 //--------------------------------------------------------------
 void ofxGLWarper::end(){
@@ -171,15 +265,89 @@ void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 			corners[whichCorner].y = scaleY;			
 		}
 
+=======
+	*/
+	switch (key.key) {
+		case '1':
+			lastCorner=0;
+			break;
+		case '2':
+			lastCorner=1;
+			break;
+		case '3':
+			lastCorner=2;
+			break;
+		case '4':
+			lastCorner=3;
+			break;
+			
+		if (lastCorner>-1 && active) {
+			
+			if (isKeyShift) {
+				inc*=100;
+			}else {
+				inc=normPix;
+			}
+		case OF_KEY_UP:
+			corners[lastCorner].y -= inc.y;
+			cout << "keyUp: "<< corners[lastCorner].x <<", "<<corners[lastCorner].y<<"  inc: "<< inc.x<<", "<<inc.y<<endl;
+			doProcess=true;
+			break;
+		case OF_KEY_DOWN:
+			corners[lastCorner].y += inc.y;
+			cout << "keyDown: "<< corners[lastCorner].x <<", "<<corners[lastCorner].y<<"  inc: "<< inc.x<<", "<<inc.y<<endl;
+			doProcess=true;
+			break;
+		case OF_KEY_LEFT:
+			corners[lastCorner].x -= inc.x;
+			doProcess=true;
+			break;
+		case OF_KEY_RIGHT:
+			corners[lastCorner].x += inc.x;
+			doProcess=true;
+			break;
+		}
+		
+		default:
+			break;
+	}
+
+}
+//--------------------------------------------------------------
+void ofxGLWarper::keyReleased(ofKeyEventArgs &key){
+	doProcess=false;
+}
+//--------------------------------------------------------------
+void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
+	if(whichCorner >= 0){
+		float scaleX = (float)args.x / ofGetWidth();
+		float scaleY = (float)args.y / ofGetHeight();
+		corners[whichCorner].x = scaleX;
+		corners[whichCorner].y = scaleY;			
+	}
+>>>>>>> nose
 }
 
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
-	
+	if (whichCorner>-1) {
+		overCorner=true;
+	}
+}
+//--------------------------------------------------------------
+void ofxGLWarper::mouseReleased(ofMouseEventArgs &args){
+	whichCorner = -1;
+	overCorner =false;
+}
+//--------------------------------------------------------------
+void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){
 	float smallestDist = 1.0;
 	whichCorner = -1;
+<<<<<<< HEAD
 	activate();
 
+=======
+>>>>>>> nose
 	
 	for(int i = 0; i < 4; i++){
 		float distx = corners[i].x - (float)args.x/width;
@@ -188,12 +356,14 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 		
 		if(dist < smallestDist && dist < 0.5){
 			whichCorner = i;
+			lastCorner = i;
 			smallestDist = dist;
 			cout << "Which corner: " << whichCorner <<endl;
 		}
 		cout << "No corner: " << smallestDist << "dist[i] " << dist<<endl<<endl ;
 		
 	}
+<<<<<<< HEAD
 
 }
 //--------------------------------------------------------------
@@ -269,4 +439,6 @@ ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z)
 	warpedPoint.z = warpedPoint.z / warpedPoint.w;
 	
 	return warpedPoint;
+=======
+>>>>>>> nose
 }
