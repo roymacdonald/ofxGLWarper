@@ -1,5 +1,10 @@
 OFXGLWARPER
 
 openGL based image warper add-on
+Based on the openGL image warper example by Theo Watson.
 
-
+-Warp anything that's being drawn in OF.
+-begin() and end() methods to define the warpped elements.
+-Easy quad manipulation by draging the quad corners with the mouse.
+-A method to get the screen to warpped image coordinates.
+-Setup now requires the resolution of the screen to be passed making it much more flexible.
