@@ -18,6 +18,9 @@ class ofxGLWarper{
 public:
 		
 	void setup(int _resX, int _resY); //changed to have resolution as parameter for the quad
+	void setup();
+	void setup(int _x, int _y, int _w, int _h);
+	void draw();
 	void begin();	//changed name from draw to begin
 	void end();		//added to make it easier to use, similar to ofFbo (begin,end)
 		
@@ -35,6 +38,7 @@ public:
 	ofVec4f		fromWarpToScreenCoord(float x,float y,float z);
 
 private:
+	int x, y;
 	int  width; //width of the quad to work with
 	int	 height; // height of the quad to work with
 	bool active;

@@ -3,20 +3,26 @@
 #include "cv.h"
 
 
-
-
+//--------------------------------------------------------------
+void ofxGLWarper::setup(){
+	setup(ofGetWidth(), ofGetHeight());
+}
 //--------------------------------------------------------------
 void ofxGLWarper::setup(int _resX, int _resY){	 
+	setup(0,0,_resX,_resY);	
+}
+//--------------------------------------------------------------
+void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 	//we run at 60 fps!
 	//ofSetVerticalSync(true);
 	ofUnregisterMouseEvents(this);
 	
 	corners[0].x = 0.0;
 	corners[0].y = 0.0;
-
+	
 	corners[1].x = 1.0;
 	corners[1].y = 0.0;
-
+	
 	corners[2].x = 1.0;
 	corners[2].y = 1.0;
 	
@@ -29,12 +35,11 @@ void ofxGLWarper::setup(int _resX, int _resY){
 		if(i % 5 != 0) myMatrix[i] = 0.0;
 		else myMatrix[i] = 1.0;
 	}
-	
-	width=_resX;
-	height=_resY;
+	x=_x;
+	y=_y;
+	width=_w;
+	height=_h;
 	whichCorner = -1;
-	
-	
 }
 //--------------------------------------------------------------
 bool ofxGLWarper::isActive(){
@@ -42,7 +47,7 @@ bool ofxGLWarper::isActive(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::activate(){
-	//ofRegisterMouseEvents(this);
+	ofRegisterMouseEvents(this);
 	active=true;
 }
 //--------------------------------------------------------------
@@ -66,14 +71,14 @@ void ofxGLWarper::processMatrices(){
 	
 	//we set the warp coordinates
 	//source coordinates as the dimensions of our window
-	cvsrc[0].x = 0;
-	cvsrc[0].y = 0;
-	cvsrc[1].x = width;
-	cvsrc[1].y = 0;
-	cvsrc[2].x = width;
-	cvsrc[2].y = height;
-	cvsrc[3].x = 0;
-	cvsrc[3].y = height;			
+	cvsrc[0].x = x;
+	cvsrc[0].y = y;
+	cvsrc[1].x = x+width;
+	cvsrc[1].y = y;
+	cvsrc[2].x = x+width;
+	cvsrc[2].y = y+height;
+	cvsrc[3].x = x;
+	cvsrc[3].y = y+height;			
 	
 	//corners are in 0.0 - 1.0 range
 	//so we scale up so that they are at the window's scale
@@ -142,7 +147,16 @@ void ofxGLWarper::processMatrices(){
 	
 
 }
-
+//--------------------------------------------------------------
+void ofxGLWarper::draw(){
+	if (active) {
+		ofPushStyle();
+		ofSetColor(255, 255, 255);
+		ofNoFill();
+		ofRect(0, 0, width, height);
+		ofPopStyle();
+	}
+}
 
 //--------------------------------------------------------------
 void ofxGLWarper::begin(){
