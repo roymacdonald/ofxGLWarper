@@ -192,7 +192,7 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 	
 	float smallestDist = 1.0;
 	whichCorner = -1;
-	activate();
+//	activate();
 
 	
 	for(int i = 0; i < 4; i++){
@@ -213,7 +213,7 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 //--------------------------------------------------------------
 void ofxGLWarper::mouseReleased(ofMouseEventArgs &args){
 	whichCorner = -1;
-	deactivate();
+//	deactivate();
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){
