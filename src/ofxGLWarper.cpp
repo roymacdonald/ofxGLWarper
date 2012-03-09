@@ -13,8 +13,6 @@ void ofxGLWarper::setup(int _resX, int _resY){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
-	//we run at 60 fps!
-	//ofSetVerticalSync(true);
 	ofUnregisterMouseEvents(this);
 	
 	corners[0].x = 0.0;
@@ -145,7 +143,7 @@ void ofxGLWarper::processMatrices(){
 	myMatrix[7]		= matrix[7];
 	myMatrix[15]	= matrix[8];	
 	
-
+	
 }
 //--------------------------------------------------------------
 void ofxGLWarper::draw(){
@@ -153,7 +151,7 @@ void ofxGLWarper::draw(){
 		ofPushStyle();
 		ofSetColor(255, 255, 255);
 		ofNoFill();
-		ofRect(0, 0, width, height);
+		ofRect(x, y, width, height);
 		ofPopStyle();
 	}
 }
@@ -176,24 +174,21 @@ void ofxGLWarper::end(){
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 
+	float scaleX = (float)args.x / width;
+	float scaleY = (float)args.y / height;
 	
-		float scaleX = (float)args.x / width;
-		float scaleY = (float)args.y / height;
-		
-		if(whichCorner >= 0){
-			corners[whichCorner].x = scaleX;
-			corners[whichCorner].y = scaleY;			
-		}
-
+	if(whichCorner >= 0){
+		corners[whichCorner].x = scaleX;
+		corners[whichCorner].y = scaleY;			
+	}
 }
-
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 	
 	float smallestDist = 1.0;
 	whichCorner = -1;
-//	activate();
-
+	//	activate();
+	
 	
 	for(int i = 0; i < 4; i++){
 		float distx = corners[i].x - (float)args.x/width;
@@ -203,25 +198,19 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 		if(dist < smallestDist && dist < 0.5){
 			whichCorner = i;
 			smallestDist = dist;
-			cout << "Which corner: " << whichCorner <<endl;
+			//cout << "Which corner: " << whichCorner <<endl;
 		}
-		cout << "No corner: " << smallestDist << "dist[i] " << dist<<endl<<endl ;
+		//cout << "No corner: " << smallestDist << "dist[i] " << dist<<endl<<endl ;
 		
 	}
-
+	
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseReleased(ofMouseEventArgs &args){
 	whichCorner = -1;
-//	deactivate();
 }
 //--------------------------------------------------------------
-void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){
-	whichCorner = -1;
-	//deactivate();
-}
-
-
+void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){}
 //--------------------------------------------------------------
 ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z)
 {

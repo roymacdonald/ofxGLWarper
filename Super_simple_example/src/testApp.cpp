@@ -34,7 +34,7 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
 switch (key) {
-	case ' ':
+	case 'a':
 		if (warper.isActive()) {
 			warper.deactivate(); //once you are done with the Wrapping you should call this method, so it realeses the keyboard and mouse and stop processing the transformation matrixes.
 								 // this will reduce the amount of precessing needed.

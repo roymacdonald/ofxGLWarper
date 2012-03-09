@@ -229,8 +229,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -302,7 +300,7 @@
 							<real>280</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>152 71 1134 807 0 0 1440 878 </string>
+						<string>231 71 1134 807 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -313,6 +311,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -330,18 +330,18 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>B034FB1314DF8BC900D74FF6</string>
+										<string>B04B993D150A934700E6B211</string>
 										<key>history</key>
 										<array>
-											<string>B01F5E11143CCEB9006F1788</string>
 											<string>B01F5EB7143CD09E006F1788</string>
 											<string>B01F5EBC143CD09E006F1788</string>
 											<string>B01F5EBD143CD09E006F1788</string>
 											<string>B01F6302143D2941006F1788</string>
-											<string>B034FAB614DF87DE00D74FF6</string>
-											<string>B034FB0514DF8B5B00D74FF6</string>
-											<string>B034FB1114DF8BC900D74FF6</string>
-											<string>B034FB1214DF8BC900D74FF6</string>
+											<string>B04B9938150A934700E6B211</string>
+											<string>B04B9939150A934700E6B211</string>
+											<string>B04B993A150A934700E6B211</string>
+											<string>B04B993B150A934700E6B211</string>
+											<string>B04B993C150A934700E6B211</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -355,7 +355,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {832, 761}}</string>
 								<key>RubberWindowFrame</key>
-								<string>152 71 1134 807 0 0 1440 878 </string>
+								<string>231 71 1134 807 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -375,7 +375,7 @@
 								<key>Frame</key>
 								<string>{{0, 766}, {832, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>152 71 1134 807 0 0 1440 878 </string>
+								<string>231 71 1134 807 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -399,9 +399,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>B034FB1414DF8BC900D74FF6</string>
+				<string>B04B993E150A934700E6B211</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>B034FB1514DF8BC900D74FF6</string>
+				<string>B04B993F150A934700E6B211</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -539,11 +539,15 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>B04B9948150A934700E6B211</string>
+		<string>B04B9949150A934700E6B211</string>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>B0AD7A1513DCF138006BB86F</string>
-		<string>/Users/roy/Desktop/CODE/OPEN_FRAMEWORKS/OPEN_FRAMEWORKS_7/addons/ofxGLWarper/A_bit_more_complex_example/ofxGLWarper.xcodeproj</string>
+		<string>/Users/roy/Desktop/CODE/OPEN_FRAMEWORKS/OPEN_FRAMEWORKS_7/ADDONS/ofxGLWarper/A_bit_more_complex_example/ofxGLWarper.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>152 71 1134 807 0 0 1440 878 </string>
+	<string>231 71 1134 807 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -620,7 +624,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>B0AD7A1513DCF138006BB86F</string>
-				<string>B034FB1614DF8BC900D74FF6</string>
+				<string>B04B9940150A934700E6B211</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -742,13 +746,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>B034FAFB14DF8B3700D74FF6</string>
+				<string>B04B9941150A934700E6B211</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>B034FAFC14DF8B3700D74FF6</string>
-				<string>B034FAFD14DF8B3700D74FF6</string>
-				<string>B034FAFE14DF8B3700D74FF6</string>
-				<string>B034FAFF14DF8B3700D74FF6</string>
-				<string>B034FB0014DF8B3700D74FF6</string>
+				<string>B04B9942150A934700E6B211</string>
+				<string>B04B9943150A934700E6B211</string>
+				<string>B04B9944150A934700E6B211</string>
+				<string>B04B9945150A934700E6B211</string>
+				<string>B04B9946150A934700E6B211</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -910,7 +914,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>B034FB0114DF8B3700D74FF6</string>
+				<string>B04B9947150A934700E6B211</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

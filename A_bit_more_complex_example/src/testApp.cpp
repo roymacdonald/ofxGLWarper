@@ -9,8 +9,8 @@ void testApp::setup(){
 	ofSetVerticalSync(true);
 	
 	//loads load in some truetype fonts
-	ttf.loadFont("type/frabk.ttf", 22);
-	ttf2.loadFont("type/frabk.ttf", 14);
+	ttf.loadFont("type/mono.ttf", 22);
+	ttf2.loadFont("type/mono.ttf", 14);
 
 	
 	//lets load a test image too
@@ -40,8 +40,8 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
 
-	warper.draw();	///all the things that are drawn AFTER ofxGLWarper's draw method are afected by it.
-					///el metodo draw de ofxGLWarper afecta a todos los elementos dibujados despues si.
+	warper.begin();	///all the things that are drawn AFTER begin and BEFORE end ofxGLWarper's methods are afected by ofxGLWarper.
+					/// Todos los elementos dibujados DESPUES de el metodo begin y ANTES de el metodo end de ofxGLWarper estar‡n afectados por ofxGLWarper.
 	
 	// -- NOW LETS DRAW!!!!!!  -----
 	
@@ -61,7 +61,7 @@ void testApp::draw(){
 	ofFill();
 	for(int i = 0; i < 40; i++)balls[i].draw();
  	ofDisableAlphaBlending();
-
+	
 	
 	//some text
 	ofSetHexColor(0x000000);
@@ -75,6 +75,10 @@ void testApp::draw(){
 
 	ofSetHexColor(0xFF00FF);
 	ttf2.drawString("warps images nicely too!", 80, 430);
+	warper.end();// feel free to move this to another position within de draw chain to see how this affects the drawing.
+	
+	ofSetColor(255);
+	ofDrawBitmapString("Press the space bar to activate/deactivate the warpers", 50, ofGetHeight() -20);
 }
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
