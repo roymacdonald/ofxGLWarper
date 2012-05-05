@@ -14,7 +14,7 @@ void testApp::setup(){
 
 	
 	//lets load a test image too
-	img.loadImage("ofTheo.jpg");
+	img.loadImage("image.jpg");
 	
 	
 	//lets setup some stupid particles
@@ -23,6 +23,7 @@ void testApp::setup(){
 		balls[i].vel.x = ofRandom(1.5, 2.8);
 		balls[i].vel.y = ofRandom(1.5, 2.8);
 	}	
+	
 	
 }
 
@@ -39,13 +40,14 @@ void testApp::update(){
 }
 //--------------------------------------------------------------
 void testApp::draw(){
-
+	
 	warper.begin();	///all the things that are drawn AFTER begin and BEFORE end ofxGLWarper's methods are afected by ofxGLWarper.
 					/// Todos los elementos dibujados DESPUES de el metodo begin y ANTES de el metodo end de ofxGLWarper estar‡n afectados por ofxGLWarper.
 	
 	// -- NOW LETS DRAW!!!!!!  -----
 	
 	//test an image
+	
 	ofSetHexColor(0xAAAAAA);
 	img.draw(70, 120);
 
@@ -62,7 +64,6 @@ void testApp::draw(){
 	for(int i = 0; i < 40; i++)balls[i].draw();
  	ofDisableAlphaBlending();
 	
-	
 	//some text
 	ofSetHexColor(0x000000);
 	ttf.drawString("grab corners to warp openGL graphics", 28, 33);
@@ -78,7 +79,7 @@ void testApp::draw(){
 	warper.end();// feel free to move this to another position within de draw chain to see how this affects the drawing.
 	
 	ofSetColor(255);
-	ofDrawBitmapString("Press the space bar to activate/deactivate the warpers", 50, ofGetHeight() -20);
+	ofDrawBitmapString("Press the space bar to activate/deactivate the warpers\nPress 's' to save to XML file\nPress 'l' to load from a XML file.", 50, ofGetHeight() -70);
 }
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
@@ -92,6 +93,13 @@ switch (key) {
 		}
 
 		break;
+	case 's': // press 's' to save the warp coordinates to an XML file.
+		warper.save("warpConfig.xml");
+		break;
+	case 'l':// press 'l' to load the warp coordinates from an XML file.
+		warper.load("warpConfig.xml");	
+	break;
+
 	default:
 		break;
 }

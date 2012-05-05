@@ -9,7 +9,7 @@ void testApp::setup(){
 	ofSetVerticalSync(true);
 	
 	//lets load a test image too
-	img.loadImage("ofTheo.jpg");
+	img.loadImage("image.jpg");
 	
 }
 
@@ -21,12 +21,13 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
 
-	warper.draw();	///all the things that are drawn AFTER ofxGLWarper's draw method are afected by it.
+	warper.begin();	///all the things that are drawn AFTER ofxGLWarper's draw method are afected by it.
 					///el metodo draw de ofxGLWarper afecta a todos los elementos dibujados despues si.
-	
+	warper.draw(); //when active draws a rectangle around the warper area.
 	// -- NOW LETS DRAW!!!!!!  -----
 	
 	img.draw(70, 120);
+	warper.end();
 	
 	ofDrawBitmapString("Just drag the corners of the image for it to warp.", 20, 100);
 	
@@ -34,7 +35,7 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
 switch (key) {
-	case 'a':
+	case ' ':
 		if (warper.isActive()) {
 			warper.deactivate(); //once you are done with the Wrapping you should call this method, so it realeses the keyboard and mouse and stop processing the transformation matrixes.
 								 // this will reduce the amount of precessing needed.

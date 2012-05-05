@@ -1,5 +1,5 @@
-/A_bit_more_complex_example/bin
+/A_bit_more_complex_example/bin/*.app
 /A_bit_more_complex_example/build
-/Super_simple_example/bin
+/Super_simple_example/bin/*.app
 /Super_simple_example/build
 .DS_Store

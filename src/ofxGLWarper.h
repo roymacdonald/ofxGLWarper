@@ -4,6 +4,7 @@
 #define OF_ADDON_USING_OFOPENCV
 
 #include "ofMain.h"
+#include "ofxXmlSettings.h"
 // ofxGLWarper by Roy Macdonald
 // ... / ... 
 //
@@ -28,6 +29,9 @@ public:
 	void mouseReleased(ofMouseEventArgs &args);
 	void mouseMoved(ofMouseEventArgs &args);
 	void processMatrices();
+	
+	void save(string saveFile = "warpConfig.xml");
+	void load(string loadFile = "warpConfig.xml");
 	
 	void activate();
 	void deactivate();

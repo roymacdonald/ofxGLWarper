@@ -170,7 +170,51 @@ void ofxGLWarper::begin(){
 void ofxGLWarper::end(){
 	glPopMatrix();
 }
-
+//--------------------------------------------------------------
+void ofxGLWarper::save(string saveFile){
+	ofxXmlSettings XML;
+	XML.clear();
+	XML.addTag("corners");
+	XML.pushTag("corners");
+	
+	
+	for(int i =0; i<4; i++){
+		int t = XML.addTag("corner");
+		XML.setValue("corner:x",corners[i].x, t);
+		XML.setValue("corner:y",corners[i].y, t);
+	}
+	XML.saveFile(saveFile);
+}
+//--------------------------------------------------------------
+void ofxGLWarper::load(string loadFile){
+	ofxXmlSettings XML;
+	if( !XML.loadFile(loadFile) ){
+		ofLog(OF_LOG_ERROR, "ofxGLWarper : xml file not loaded. Check file path.");
+	}
+	
+	if(!XML.tagExists("corners")){
+		ofLog(OF_LOG_ERROR, "ofxGLWarper : incorrrect xml formating. No \"corners\" tag found");
+		return;
+	}
+	XML.pushTag("corners");
+	if (XML.getNumTags("corner")<4 ) {
+		ofLog(OF_LOG_ERROR, "ofxGLWarper : incorrrect xml formating. less than 4 \"corner\" tags found");
+		return;	
+	}
+	for(int i =0; i<4; i++){
+		int t = XML.addTag("corner");
+		XML.pushTag("corner", i);
+		if (XML.tagExists("x") && XML.tagExists("y")){
+			corners[i].x = XML.getValue("x", double(1.0));
+			corners[i].y = XML.getValue("y", double(1.0));
+		}
+		XML.popTag();
+	}
+	
+	processMatrices();
+	ofLog(OF_LOG_ERROR, "ofxGLWarper : xml file loaded OK!.");
+	
+}
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 
@@ -187,8 +231,6 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 	
 	float smallestDist = 1.0;
 	whichCorner = -1;
-	//	activate();
-	
 	
 	for(int i = 0; i < 4; i++){
 		float distx = corners[i].x - (float)args.x/width;
@@ -198,10 +240,7 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 		if(dist < smallestDist && dist < 0.5){
 			whichCorner = i;
 			smallestDist = dist;
-			//cout << "Which corner: " << whichCorner <<endl;
 		}
-		//cout << "No corner: " << smallestDist << "dist[i] " << dist<<endl<<endl ;
-		
 	}
 	
 }
