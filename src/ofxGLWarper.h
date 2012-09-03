@@ -39,6 +39,9 @@ public:
 	
 	ofVec4f		fromScreenToWarpCoord(float x,float y,float z);
 	ofVec4f		fromWarpToScreenCoord(float x,float y,float z);
+    
+    void setCornerSensibility(float sensibility);
+    float getCornerSensibility();
 
 private:
 	int x, y;
@@ -48,6 +51,7 @@ private:
 	ofPoint corners[4];
 	int whichCorner;
 	GLfloat myMatrix[16];
+    float cornerSensibility;
 };
 
 #endif	

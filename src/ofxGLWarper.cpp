@@ -38,6 +38,8 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 	width=_w;
 	height=_h;
 	whichCorner = -1;
+    
+    cornerSensibility = 0.5;
 }
 //--------------------------------------------------------------
 bool ofxGLWarper::isActive(){
@@ -237,7 +239,7 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 		float disty = corners[i].y - (float)args.y/height;
 		float dist  = sqrt( distx * distx + disty * disty);
 		
-		if(dist < smallestDist && dist < 0.5){
+		if(dist < smallestDist && dist < cornerSensibility){
 			whichCorner = i;
 			smallestDist = dist;
 		}
@@ -311,4 +313,14 @@ ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z)
 	warpedPoint.z = warpedPoint.z / warpedPoint.w;
 	
 	return warpedPoint;
+}
+//--------------------------------------------------------------
+void ofxGLWarper::setCornerSensibility(float sensibility)
+{
+    cornerSensibility = sensibility;
+}
+//--------------------------------------------------------------
+float ofxGLWarper::getCornerSensibility()
+{
+    return cornerSensibility;
 }
