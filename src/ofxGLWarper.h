@@ -33,6 +33,9 @@ public:
 	void save(string saveFile = "warpConfig.xml");
 	void load(string loadFile = "warpConfig.xml");
 	
+	void saveToXml(ofxXmlSettings& XML);
+	void loadFromXml(ofxXmlSettings& XML);
+	
 	void activate();
 	void deactivate();
 	bool isActive();
