@@ -229,6 +229,7 @@ void ofxGLWarper::saveToXml(ofxXmlSettings &XML){
 		XML.setValue("corner:x",corners[i].x, t);
 		XML.setValue("corner:y",corners[i].y, t);
 	}
+	XML.popTag();
 }
 //--------------------------------------------------------------
 void ofxGLWarper::loadFromXml(ofxXmlSettings &XML){	
@@ -250,7 +251,7 @@ void ofxGLWarper::loadFromXml(ofxXmlSettings &XML){
 		}
 		XML.popTag();
 	}
-	
+	XML.popTag();
 	processMatrices();
 	ofLog(OF_LOG_WARNING, "ofxGLWarper : xml object loaded OK!.");
 	
