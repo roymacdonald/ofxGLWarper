@@ -264,7 +264,10 @@ void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 	
 	if(whichCorner >= 0){
 		corners[whichCorner].x = scaleX;
-		corners[whichCorner].y = scaleY;			
+		corners[whichCorner].y = scaleY;
+		
+        CornerLocation location = (CornerLocation)whichCorner;
+        ofNotifyEvent(changeEvent, location, this);
 	}
 }
 //--------------------------------------------------------------
@@ -352,6 +355,20 @@ ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z)
 	warpedPoint.z = warpedPoint.z / warpedPoint.w;
 	
 	return warpedPoint;
+}
+//--------------------------------------------------------------
+void ofxGLWarper::setCorner(CornerLocation cornerLocation, ofPoint screenLocation)
+{
+    corners[cornerLocation] = screenLocation / ofPoint(width, height, 1);
+    processMatrices();
+
+    CornerLocation location = cornerLocation;
+    ofNotifyEvent(changeEvent, location, this);
+}
+//--------------------------------------------------------------
+ofPoint ofxGLWarper::getCorner(CornerLocation cornerLocation)
+{
+    return corners[cornerLocation] * ofPoint(width, height, 1);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::setCornerSensibility(float sensibility)

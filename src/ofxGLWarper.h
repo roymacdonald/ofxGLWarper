@@ -14,9 +14,19 @@
 // changed draw() to begin() end() model
 // added fromScreenToWarpCoord() and fromWarpToScreenCoord()
 
+
+
 class ofxGLWarper{
 	
 public:
+    enum CornerLocation{
+        TOP_LEFT = 0,
+        TOP_RIGHT,
+        BOTTOM_RIGHT,
+        BOTTOM_LEFT
+    };
+    
+    
 	void setup();		
 	void setup(int _resX, int _resY); //changed to have resolution as parameter for the quad
 	void setup(int _x, int _y, int _w, int _h);
@@ -40,11 +50,16 @@ public:
 	void deactivate();
 	bool isActive();
 	
-	ofVec4f		fromScreenToWarpCoord(float x,float y,float z);
-	ofVec4f		fromWarpToScreenCoord(float x,float y,float z);
+	ofVec4f	fromScreenToWarpCoord(float x,float y,float z);
+	ofVec4f	fromWarpToScreenCoord(float x,float y,float z);
     
+    void setCorner(CornerLocation cornerLocation, ofPoint screenLocation);
+    ofPoint getCorner(CornerLocation cornerLocation);
+        
     void setCornerSensibility(float sensibility);
     float getCornerSensibility();
+    
+    ofEvent<CornerLocation> changeEvent;
 
 private:
 	int x, y;
