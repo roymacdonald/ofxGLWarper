@@ -13,8 +13,9 @@ void ofxGLWarper::setup(int _resX, int _resY){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
+    cout << "ofxGLWarper setup: " <<_x << " " <<_y << " " <<_w << " " <<_h << endl;
 	ofUnregisterMouseEvents(this);
-	
+	/*
 	corners[0].x = 0.0;
 	corners[0].y = 0.0;
 	
@@ -26,7 +27,19 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 	
 	corners[3].x = 0.0;
 	corners[3].y = 1.0;
+	//*/
+    corners[0].x = _x;
+	corners[0].y = _y;
 	
+	corners[1].x = _x + _w;
+	corners[1].y = _y;
+	
+	corners[2].x = _x + _w;
+	corners[2].y = _y + _h;
+	
+	corners[3].x = _x;
+	corners[3].y = _y + _h;
+    
 	active=false;
 	
 	for(int i = 0; i < 16; i++){
@@ -56,6 +69,16 @@ void ofxGLWarper::deactivate(){
 	active=false;
 }
 //--------------------------------------------------------------
+void ofxGLWarper::toogleActive(){
+    if(!active){
+        activate();
+        cout << "activate"<<endl;
+    }else{
+        deactivate();
+        cout << "desactivate"<<endl;
+    }
+}
+//--------------------------------------------------------------
 void ofxGLWarper::processMatrices(){
 	//we set it to the default - 0 translation
 	//and 1.0 scale for x y z and w
@@ -83,8 +106,10 @@ void ofxGLWarper::processMatrices(){
 	//corners are in 0.0 - 1.0 range
 	//so we scale up so that they are at the window's scale
 	for(int i = 0; i < 4; i++){
-		cvdst[i].x = corners[i].x  * (float)width;
-		cvdst[i].y = corners[i].y * (float)height;
+		//cvdst[i].x = corners[i].x  * (float)width;
+		//cvdst[i].y = corners[i].y * (float)height;
+        cvdst[i].x = corners[i].x;
+		cvdst[i].y = corners[i].y;
 	}
 	
 	//we create a matrix that will store the results
@@ -157,7 +182,6 @@ void ofxGLWarper::draw(){
 		ofPopStyle();
 	}
 }
-
 //--------------------------------------------------------------
 void ofxGLWarper::begin(){
 	if (active) {
@@ -166,8 +190,6 @@ void ofxGLWarper::begin(){
 	glPushMatrix();
 	glMultMatrixf(myMatrix);
 }
-
-
 //--------------------------------------------------------------
 void ofxGLWarper::end(){
 	glPopMatrix();
@@ -259,12 +281,14 @@ void ofxGLWarper::loadFromXml(ofxXmlSettings &XML){
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 
-	float scaleX = (float)args.x / width;
-	float scaleY = (float)args.y / height;
+	//float scaleX = (float)args.x / width;
+	//float scaleY = (float)args.y / height;
 	
 	if(whichCorner >= 0){
-		corners[whichCorner].x = scaleX;
-		corners[whichCorner].y = scaleY;
+	//	corners[whichCorner].x = scaleX;
+	//	corners[whichCorner].y = scaleY;
+        corners[whichCorner].x = args.x;
+		corners[whichCorner].y = args.y;
 		
         CornerLocation location = (CornerLocation)whichCorner;
         ofNotifyEvent(changeEvent, location, this);
@@ -273,19 +297,23 @@ void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 	
-	float smallestDist = 1.0;
+	float smallestDist = sqrt(ofGetWidth() * ofGetWidth() + ofGetHeight() * ofGetHeight());
 	whichCorner = -1;
-	
+	float sensFactor = cornerSensibility * sqrt( width  * width  + height  * height );
+    cout << "sens factor " << sensFactor << endl;
 	for(int i = 0; i < 4; i++){
-		float distx = corners[i].x - (float)args.x/width;
-		float disty = corners[i].y - (float)args.y/height;
+		float distx = corners[i].x - (float)args.x;
+		float disty = corners[i].y - (float)args.y;
+//      float distx = corners[i].x - (float)args.x/width;
+//		float disty = corners[i].y - (float)args.y/height;
 		float dist  = sqrt( distx * distx + disty * disty);
-		
-		if(dist < smallestDist && dist < cornerSensibility){
+		cout << "mouse to corner dist: " << dist << endl;
+		if(dist < smallestDist && dist < sensFactor ){
 			whichCorner = i;
 			smallestDist = dist;
 		}
 	}
+    
 	
 }
 //--------------------------------------------------------------
@@ -295,8 +323,7 @@ void ofxGLWarper::mouseReleased(ofMouseEventArgs &args){
 //--------------------------------------------------------------
 void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){}
 //--------------------------------------------------------------
-ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z)
-{
+ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
 	ofVec4f mousePoint;
 	ofVec4f warpedPoint;
 	
@@ -325,10 +352,8 @@ ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z)
 	
 	return warpedPoint;
 }
-
 //--------------------------------------------------------------
-ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z)
-{
+ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
 	ofVec4f mousePoint;
 	ofVec4f warpedPoint;
 	
@@ -357,26 +382,22 @@ ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z)
 	return warpedPoint;
 }
 //--------------------------------------------------------------
-void ofxGLWarper::setCorner(CornerLocation cornerLocation, ofPoint screenLocation)
-{
-    corners[cornerLocation] = screenLocation / ofPoint(width, height, 1);
+void ofxGLWarper::setCorner(CornerLocation cornerLocation, ofPoint screenLocation){
+    corners[cornerLocation] = screenLocation;// / ofPoint(width, height, 1);
     processMatrices();
 
     CornerLocation location = cornerLocation;
     ofNotifyEvent(changeEvent, location, this);
 }
 //--------------------------------------------------------------
-ofPoint ofxGLWarper::getCorner(CornerLocation cornerLocation)
-{
-    return corners[cornerLocation] * ofPoint(width, height, 1);
+ofPoint ofxGLWarper::getCorner(CornerLocation cornerLocation){
+    return corners[cornerLocation];// * ofPoint(width, height, 1);
 }
 //--------------------------------------------------------------
-void ofxGLWarper::setCornerSensibility(float sensibility)
-{
+void ofxGLWarper::setCornerSensibility(float sensibility){
     cornerSensibility = sensibility;
 }
 //--------------------------------------------------------------
-float ofxGLWarper::getCornerSensibility()
-{
+float ofxGLWarper::getCornerSensibility(){
     return cornerSensibility;
 }

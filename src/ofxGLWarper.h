@@ -46,6 +46,7 @@ public:
 	void saveToXml(ofxXmlSettings& XML);
 	void loadFromXml(ofxXmlSettings& XML);
 	
+    void toogleActive();
 	void activate();
 	void deactivate();
 	bool isActive();
