@@ -38,6 +38,8 @@ public:
 	void mousePressed(ofMouseEventArgs &args);
 	void mouseReleased(ofMouseEventArgs &args);
 	void mouseMoved(ofMouseEventArgs &args);
+    void keyPressed(ofKeyEventArgs &args);
+    void keyReleased(ofKeyEventArgs &args);
 	void processMatrices();
 	
 	void save(string saveFile = "warpConfig.xml");
@@ -50,7 +52,12 @@ public:
 	void activate();
 	void deactivate();
 	bool isActive();
-	
+    
+	void enableKeys(bool k = true);
+    void toogleKeys();
+    bool getUseKeys();
+    void setUseKeys(bool use = true);
+    
 	ofVec4f	fromScreenToWarpCoord(float x,float y,float z);
 	ofVec4f	fromWarpToScreenCoord(float x,float y,float z);
     
@@ -71,6 +78,8 @@ private:
 	int whichCorner;
 	GLfloat myMatrix[16];
     float cornerSensibility;
+    bool cornerSelected;
+    bool bUseKeys;
 };
 
 #endif	
