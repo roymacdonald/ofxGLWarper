@@ -13,8 +13,9 @@ void ofxGLWarper::setup(int _resX, int _resY){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
+    cout << "ofxGLWarper setup: " <<_x << " " <<_y << " " <<_w << " " <<_h << endl;
 	ofUnregisterMouseEvents(this);
-	
+	/*
 	corners[0].x = 0.0;
 	corners[0].y = 0.0;
 	
@@ -26,7 +27,19 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 	
 	corners[3].x = 0.0;
 	corners[3].y = 1.0;
+	//*/
+    corners[0].x = _x;
+	corners[0].y = _y;
 	
+	corners[1].x = _x + _w;
+	corners[1].y = _y;
+	
+	corners[2].x = _x + _w;
+	corners[2].y = _y + _h;
+	
+	corners[3].x = _x;
+	corners[3].y = _y + _h;
+    
 	active=false;
 	
 	for(int i = 0; i < 16; i++){
@@ -38,8 +51,9 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 	width=_w;
 	height=_h;
 	whichCorner = -1;
-    
+    cornerSelected = false;
     cornerSensibility = 0.5;
+    bUseKeys = true;
 }
 //--------------------------------------------------------------
 bool ofxGLWarper::isActive(){
@@ -49,11 +63,48 @@ bool ofxGLWarper::isActive(){
 void ofxGLWarper::activate(){
 	ofRegisterMouseEvents(this);
 	active=true;
+    if (bUseKeys) {
+        ofRegisterKeyEvents(this);
+    }
 }
 //--------------------------------------------------------------
 void ofxGLWarper::deactivate(){
 	ofUnregisterMouseEvents(this);
 	active=false;
+    if (bUseKeys) {
+        ofUnregisterKeyEvents(this);
+    }
+}
+//--------------------------------------------------------------
+void ofxGLWarper::toogleActive(){
+    if(!active){
+        activate();
+        cout << "activate"<<endl;
+    }else{
+        deactivate();
+        cout << "desactivate"<<endl;
+    }
+}
+//--------------------------------------------------------------
+void ofxGLWarper::enableKeys(bool k){
+//    bUseKeys=k;
+    if (k) {
+        ofRegisterKeyEvents(this);
+    }else{
+        ofUnregisterKeyEvents(this);
+    }
+}
+//--------------------------------------------------------------
+void ofxGLWarper::toogleKeys(){
+    enableKeys(!bUseKeys);
+}
+//--------------------------------------------------------------
+bool ofxGLWarper::getUseKeys(){
+    return bUseKeys;
+}
+//--------------------------------------------------------------
+void ofxGLWarper::setUseKeys(bool use){
+    bUseKeys = use;
 }
 //--------------------------------------------------------------
 void ofxGLWarper::processMatrices(){
@@ -83,8 +134,10 @@ void ofxGLWarper::processMatrices(){
 	//corners are in 0.0 - 1.0 range
 	//so we scale up so that they are at the window's scale
 	for(int i = 0; i < 4; i++){
-		cvdst[i].x = corners[i].x  * (float)width;
-		cvdst[i].y = corners[i].y * (float)height;
+		//cvdst[i].x = corners[i].x  * (float)width;
+		//cvdst[i].y = corners[i].y * (float)height;
+        cvdst[i].x = corners[i].x;
+		cvdst[i].y = corners[i].y;
 	}
 	
 	//we create a matrix that will store the results
@@ -157,7 +210,6 @@ void ofxGLWarper::draw(){
 		ofPopStyle();
 	}
 }
-
 //--------------------------------------------------------------
 void ofxGLWarper::begin(){
 	if (active) {
@@ -166,16 +218,29 @@ void ofxGLWarper::begin(){
 	glPushMatrix();
 	glMultMatrixf(myMatrix);
 }
-
-
 //--------------------------------------------------------------
 void ofxGLWarper::end(){
 	glPopMatrix();
+    if (active) {// this draws colored squares over the corners as a visual aid. 
+        ofPushStyle();
+        ofSetRectMode(OF_RECTMODE_CENTER);
+        for (int i = 0; i < 4; i++) {
+            if(i==whichCorner){
+                ofSetColor(255, 0, 0);
+            }else{
+                ofSetColor(255, 255, 0);
+            }
+            ofRect(corners[i], 10, 10);
+        }
+        ofPopStyle();
+    }
 }
 //--------------------------------------------------------------
 void ofxGLWarper::save(string saveFile){
 	ofxXmlSettings XML;
-	XML.clear();
+	saveToXml(XML);
+    /*
+    XML.clear();
 	XML.addTag("corners");
 	XML.pushTag("corners");
 	
@@ -185,15 +250,30 @@ void ofxGLWarper::save(string saveFile){
 		XML.setValue("corner:x",corners[i].x, t);
 		XML.setValue("corner:y",corners[i].y, t);
 	}
+    //*/
 	XML.saveFile(saveFile);
+}
+//--------------------------------------------------------------
+void ofxGLWarper::saveToXml(ofxXmlSettings &XML){
+	XML.clear();
+	XML.addTag("corners");
+	XML.pushTag("corners");
+	for(int i =0; i<4; i++){
+		int t = XML.addTag("corner");
+		XML.setValue("corner:x",corners[i].x, t);
+		XML.setValue("corner:y",corners[i].y, t);
+	}
+	XML.popTag();
 }
 //--------------------------------------------------------------
 void ofxGLWarper::load(string loadFile){
 	ofxXmlSettings XML;
 	if( !XML.loadFile(loadFile) ){
 		ofLog(OF_LOG_ERROR, "ofxGLWarper : xml file not loaded. Check file path.");
+        return;
 	}
-	
+    loadFromXml(XML);
+	/*
 	if(!XML.tagExists("corners")){
 		ofLog(OF_LOG_ERROR, "ofxGLWarper : incorrrect xml formating. No \"corners\" tag found");
 		return;
@@ -215,22 +295,9 @@ void ofxGLWarper::load(string loadFile){
 	
 	processMatrices();
 	ofLog(OF_LOG_WARNING, "ofxGLWarper : xml file loaded OK!.");
-	
+	//*/
 }
-//--------------------------------------------------------------
-void ofxGLWarper::saveToXml(ofxXmlSettings &XML){
-	XML.clear();
-	XML.addTag("corners");
-	XML.pushTag("corners");
-	
-	
-	for(int i =0; i<4; i++){
-		int t = XML.addTag("corner");
-		XML.setValue("corner:x",corners[i].x, t);
-		XML.setValue("corner:y",corners[i].y, t);
-	}
-	XML.popTag();
-}
+
 //--------------------------------------------------------------
 void ofxGLWarper::loadFromXml(ofxXmlSettings &XML){	
 	if(!XML.tagExists("corners")){
@@ -259,12 +326,14 @@ void ofxGLWarper::loadFromXml(ofxXmlSettings &XML){
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 
-	float scaleX = (float)args.x / width;
-	float scaleY = (float)args.y / height;
+	//float scaleX = (float)args.x / width;
+	//float scaleY = (float)args.y / height;
 	
-	if(whichCorner >= 0){
-		corners[whichCorner].x = scaleX;
-		corners[whichCorner].y = scaleY;
+	if(whichCorner >= 0 && cornerSelected){
+	//	corners[whichCorner].x = scaleX;
+	//	corners[whichCorner].y = scaleY;
+        corners[whichCorner].x = args.x;
+		corners[whichCorner].y = args.y;
 		
         CornerLocation location = (CornerLocation)whichCorner;
         ofNotifyEvent(changeEvent, location, this);
@@ -273,30 +342,59 @@ void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 	
-	float smallestDist = 1.0;
-	whichCorner = -1;
-	
+	float smallestDist = sqrt(ofGetWidth() * ofGetWidth() + ofGetHeight() * ofGetHeight());
+	//whichCorner = -1;
+	float sensFactor = cornerSensibility * sqrt( width  * width  + height  * height );
+   // cout << "sens factor " << sensFactor << endl;
+    cornerSelected = false;
 	for(int i = 0; i < 4; i++){
-		float distx = corners[i].x - (float)args.x/width;
-		float disty = corners[i].y - (float)args.y/height;
+		float distx = corners[i].x - (float)args.x;
+		float disty = corners[i].y - (float)args.y;
+//      float distx = corners[i].x - (float)args.x/width;
+//		float disty = corners[i].y - (float)args.y/height;
 		float dist  = sqrt( distx * distx + disty * disty);
-		
-		if(dist < smallestDist && dist < cornerSensibility){
+		cout << "mouse to corner dist: " << dist << endl;
+		if(dist < smallestDist && dist < sensFactor ){
 			whichCorner = i;
 			smallestDist = dist;
+            cornerSelected=true;
 		}
 	}
-	
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseReleased(ofMouseEventArgs &args){
-	whichCorner = -1;
+	//whichCorner = -1;
 }
 //--------------------------------------------------------------
-void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){}
+void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){
+}
 //--------------------------------------------------------------
-ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z)
-{
+void ofxGLWarper::mouseScrolled(ofMouseEventArgs &args){}
+//--------------------------------------------------------------
+void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
+        switch (args.key) {
+                if (whichCorner>=0 && cornerSelected) {
+            case OF_KEY_DOWN:
+                corners[whichCorner].y++;
+                break;
+            case OF_KEY_UP:
+                corners[whichCorner].y--;
+                break;
+            case OF_KEY_LEFT:
+                corners[whichCorner].x--;
+                break;
+            case OF_KEY_RIGHT:
+                corners[whichCorner].x++;            
+                break;
+                }
+            default:
+                break;
+    }
+}
+//--------------------------------------------------------------
+void ofxGLWarper::keyReleased(ofKeyEventArgs &args){}
+//--------------------------------------------------------------
+ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
 	ofVec4f mousePoint;
 	ofVec4f warpedPoint;
 	
@@ -325,10 +423,8 @@ ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z)
 	
 	return warpedPoint;
 }
-
 //--------------------------------------------------------------
-ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z)
-{
+ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
 	ofVec4f mousePoint;
 	ofVec4f warpedPoint;
 	
@@ -357,26 +453,22 @@ ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z)
 	return warpedPoint;
 }
 //--------------------------------------------------------------
-void ofxGLWarper::setCorner(CornerLocation cornerLocation, ofPoint screenLocation)
-{
-    corners[cornerLocation] = screenLocation / ofPoint(width, height, 1);
+void ofxGLWarper::setCorner(CornerLocation cornerLocation, ofPoint screenLocation){
+    corners[cornerLocation] = screenLocation;// / ofPoint(width, height, 1);
     processMatrices();
 
     CornerLocation location = cornerLocation;
     ofNotifyEvent(changeEvent, location, this);
 }
 //--------------------------------------------------------------
-ofPoint ofxGLWarper::getCorner(CornerLocation cornerLocation)
-{
-    return corners[cornerLocation] * ofPoint(width, height, 1);
+ofPoint ofxGLWarper::getCorner(CornerLocation cornerLocation){
+    return corners[cornerLocation];// * ofPoint(width, height, 1);
 }
 //--------------------------------------------------------------
-void ofxGLWarper::setCornerSensibility(float sensibility)
-{
+void ofxGLWarper::setCornerSensibility(float sensibility){
     cornerSensibility = sensibility;
 }
 //--------------------------------------------------------------
-float ofxGLWarper::getCornerSensibility()
-{
+float ofxGLWarper::getCornerSensibility(){
     return cornerSensibility;
 }
