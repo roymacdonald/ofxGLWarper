@@ -38,6 +38,7 @@ public:
 	void mousePressed(ofMouseEventArgs &args);
 	void mouseReleased(ofMouseEventArgs &args);
 	void mouseMoved(ofMouseEventArgs &args);
+	void mouseScrolled(ofMouseEventArgs &args);
     void keyPressed(ofKeyEventArgs &args);
     void keyReleased(ofKeyEventArgs &args);
 	void processMatrices();

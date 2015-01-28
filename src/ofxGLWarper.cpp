@@ -369,6 +369,8 @@ void ofxGLWarper::mouseReleased(ofMouseEventArgs &args){
 void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){
 }
 //--------------------------------------------------------------
+void ofxGLWarper::mouseScrolled(ofMouseEventArgs &args){}
+//--------------------------------------------------------------
 void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
         switch (args.key) {
                 if (whichCorner>=0 && cornerSelected) {
