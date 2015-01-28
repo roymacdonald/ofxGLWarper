@@ -12,6 +12,12 @@
 		B037B1B415548EC4009CC685 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B037B1AE15548EC4009CC685 /* tinyxmlerror.cpp */; };
 		B037B1B515548EC4009CC685 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B037B1AF15548EC4009CC685 /* tinyxmlparser.cpp */; };
 		B037B1B615548EC4009CC685 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B037B1B115548EC4009CC685 /* ofxXmlSettings.cpp */; };
+		B077821E1A78FA410082AAAD /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B07782181A78FA410082AAAD /* Accelerate.framework */; };
+		B077821F1A78FA410082AAAD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B07782191A78FA410082AAAD /* AVFoundation.framework */; };
+		B07782201A78FA410082AAAD /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B077821A1A78FA410082AAAD /* CoreMedia.framework */; };
+		B07782211A78FA410082AAAD /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B077821B1A78FA410082AAAD /* CoreVideo.framework */; };
+		B07782221A78FA410082AAAD /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B077821C1A78FA410082AAAD /* QTKit.framework */; };
+		B07782231A78FA410082AAAD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B077821D1A78FA410082AAAD /* QuartzCore.framework */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -71,6 +77,12 @@
 		B037B1AF15548EC4009CC685 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		B037B1B115548EC4009CC685 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		B037B1B215548EC4009CC685 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		B07782181A78FA410082AAAD /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = ../../../../../../System/Library/Frameworks/Accelerate.framework; sourceTree = "<group>"; };
+		B07782191A78FA410082AAAD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = ../../../../../../System/Library/Frameworks/AVFoundation.framework; sourceTree = "<group>"; };
+		B077821A1A78FA410082AAAD /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
+		B077821B1A78FA410082AAAD /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = ../../../../../../System/Library/Frameworks/CoreVideo.framework; sourceTree = "<group>"; };
+		B077821C1A78FA410082AAAD /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = ../../../../../../System/Library/Frameworks/QTKit.framework; sourceTree = "<group>"; };
+		B077821D1A78FA410082AAAD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -98,9 +110,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B07782231A78FA410082AAAD /* QuartzCore.framework in Frameworks */,
+				B077821F1A78FA410082AAAD /* AVFoundation.framework in Frameworks */,
 				E4EB6799138ADC1D00A09F29 /* GLUT.framework in Frameworks */,
 				E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */,
+				B07782201A78FA410082AAAD /* CoreMedia.framework in Frameworks */,
 				E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */,
+				B07782221A78FA410082AAAD /* QTKit.framework in Frameworks */,
+				B07782211A78FA410082AAAD /* CoreVideo.framework in Frameworks */,
 				E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */,
 				E45BE97D0E8CC7DD009D7055 /* AudioToolbox.framework in Frameworks */,
 				E45BE97E0E8CC7DD009D7055 /* Carbon.framework in Frameworks */,
@@ -110,6 +127,7 @@
 				E45BE9830E8CC7DD009D7055 /* OpenGL.framework in Frameworks */,
 				E45BE9840E8CC7DD009D7055 /* QuickTime.framework in Frameworks */,
 				E4C2424710CC5A17004149E2 /* AppKit.framework in Frameworks */,
+				B077821E1A78FA410082AAAD /* Accelerate.framework in Frameworks */,
 				E4C2424810CC5A17004149E2 /* Cocoa.framework in Frameworks */,
 				E4C2424910CC5A17004149E2 /* IOKit.framework in Frameworks */,
 			);
@@ -170,6 +188,12 @@
 		BBAB23C913894ECA00AA2426 /* system frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B07782181A78FA410082AAAD /* Accelerate.framework */,
+				B07782191A78FA410082AAAD /* AVFoundation.framework */,
+				B077821A1A78FA410082AAAD /* CoreMedia.framework */,
+				B077821B1A78FA410082AAAD /* CoreVideo.framework */,
+				B077821C1A78FA410082AAAD /* QTKit.framework */,
+				B077821D1A78FA410082AAAD /* QuartzCore.framework */,
 				E4C2424410CC5A17004149E2 /* AppKit.framework */,
 				E4C2424510CC5A17004149E2 /* Cocoa.framework */,
 				E4C2424610CC5A17004149E2 /* IOKit.framework */,
@@ -270,6 +294,8 @@
 /* Begin PBXProject section */
 		E4B69B4C0A3A1720003C02F2 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "ofxGLWarper" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
