@@ -1,12 +1,12 @@
-#include "testApp.h"
+#include "ofApp.h"
 #include "stdio.h"
 
 //--------------------------------------------------------------
-void testApp::setup(){	 
-	img.loadImage("image.jpg");
+void ofApp::setup(){	 
+	img.load("image.jpg");
 	for (int i =0; i<NUM_WARPERS; i++){
         warpers.push_back(ofxGLWarper());
-        warpers.back().setup((i%2)*img.width,floor(float(i)/2)*img.height,img.width, img.height); 
+        warpers.back().setup((i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight(),img.getWidth(), img.getHeight());
        //warpers.back().activate();
     }
     ofSetVerticalSync(true);
@@ -15,22 +15,23 @@ void testApp::setup(){
 }
 
 //--------------------------------------------------------------
-void testApp::update(){	
+void ofApp::update(){	
 	ofBackground(20, 20, 20);
 	
 }
 //--------------------------------------------------------------
-void testApp::draw(){
+void ofApp::draw(){
     for (int i =0; i<NUM_WARPERS; i++){
         warpers[i].begin();	
         warpers[i].draw(); 
-        img.draw((i%2)*img.width,floor(float(i)/2)*img.height);
+        img.draw((i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight());
         warpers[i].draw();
         warpers[i].end();
 	}
+    ofDrawBitmapString("Press keys 1 to 4 to toggle each warper", 20, 50);
 }
 //--------------------------------------------------------------
-void testApp::keyPressed(int key){
+void ofApp::keyPressed(int key){
   bool bDeactivateOthers = false;
     switch (key) {
         case '1':
@@ -68,12 +69,12 @@ void testApp::keyPressed(int key){
     }
 }
 //--------------------------------------------------------------
-void testApp::keyReleased(int key){}
+void ofApp::keyReleased(int key){}
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){}
+void ofApp::mouseMoved(int x, int y ){}
 //--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){}
+void ofApp::mouseDragged(int x, int y, int button){}
 //--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){}
+void ofApp::mousePressed(int x, int y, int button){}
 //--------------------------------------------------------------
-void testApp::mouseReleased(){}
+void ofApp::mouseReleased(){}

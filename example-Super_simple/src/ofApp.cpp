@@ -1,25 +1,25 @@
-#include "testApp.h"
+#include "ofApp.h"
 #include "stdio.h"
 
 //--------------------------------------------------------------
-void testApp::setup(){	 
+void ofApp::setup(){	 
 	//we run at 60 fps!
 	warper.setup(); //initializates ofxGLWarper
 	warper.activate();// this allows ofxGLWarper to automatically listen to the mouse and keyboard input and updates automatically it's matrixes.
 	ofSetVerticalSync(true);
 	
 	//lets load a test image too
-	img.loadImage("image.jpg");
+	img.load("image.jpg");
 	
 }
 
 //--------------------------------------------------------------
-void testApp::update(){	
+void ofApp::update(){	
 	ofBackground(20, 20, 20);
 	
 }
 //--------------------------------------------------------------
-void testApp::draw(){
+void ofApp::draw(){
 
 	warper.begin();	///all the things that are drawn AFTER ofxGLWarper's draw method are afected by it.
 					///el metodo draw de ofxGLWarper afecta a todos los elementos dibujados despues si.
@@ -33,7 +33,7 @@ void testApp::draw(){
 	
 }
 //--------------------------------------------------------------
-void testApp::keyPressed(int key){
+void ofApp::keyPressed(int key){
 switch (key) {
 	case ' ':
 		if (warper.isActive()) {
@@ -49,12 +49,12 @@ switch (key) {
 }
 }
 //--------------------------------------------------------------
-void testApp::keyReleased(int key){}
+void ofApp::keyReleased(int key){}
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){}
+void ofApp::mouseMoved(int x, int y ){}
 //--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){}
+void ofApp::mouseDragged(int x, int y, int button){}
 //--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){}
+void ofApp::mousePressed(int x, int y, int button){}
 //--------------------------------------------------------------
-void testApp::mouseReleased(){}
+void ofApp::mouseReleased(){}

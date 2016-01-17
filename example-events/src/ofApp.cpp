@@ -1,9 +1,9 @@
-#include "testApp.h"
+#include "ofApp.h"
 
 //--------------------------------------------------------------
-void testApp::setup(){
+void ofApp::setup(){
     
-    image.loadImage("image.jpg");
+    image.load("image.jpg");
     warper.setup(0,0,image.getWidth(),image.getHeight());
     warper.activate();
     
@@ -26,12 +26,12 @@ void testApp::setup(){
     warper.setCorner(ofxGLWarper::BOTTOM_RIGHT, BRPosition);
     
     // start listening to events
-    ofAddListener(warper.changeEvent, this, &testApp::onCornerChange);
+    ofAddListener(warper.changeEvent, this, &ofApp::onCornerChange);
 
 }
 
 //--------------------------------------------------------------
-void testApp::update(){
+void ofApp::update(){
     // move the TOP_LEFT corner via code
     ofPoint newPosition = ofPoint(ofGetWidth()/2 - image.getWidth()/2, ofGetHeight()/2 - image.getHeight()/2);
     newPosition += ofPoint(50,50) * sin(ofGetElapsedTimef());    
@@ -40,7 +40,7 @@ void testApp::update(){
 }
 
 //--------------------------------------------------------------
-void testApp::draw(){
+void ofApp::draw(){
     ofBackgroundGradient(ofColor(120,120,120), ofColor(80,80,80));
     
     ofDrawBitmapString("The 'top left' corner is controlled by code.\nAll the other corners are controlled by the mouse.", 50,50);
@@ -49,14 +49,14 @@ void testApp::draw(){
     warper.end();
     
     ofDrawBitmapString("The circles have their position updated everytime\nthe warper triggers a change event.", 50,100);    
-    ofCircle(TLPosition, 5);
-    ofCircle(TRPosition, 5);
-    ofCircle(BLPosition, 5);
-    ofCircle(BRPosition, 5);
+    ofDrawCircle(TLPosition, 15);
+    ofDrawCircle(TRPosition, 15);
+    ofDrawCircle(BLPosition, 15);
+    ofDrawCircle(BRPosition, 15);
 }
 
 //--------------------------------------------------------------
-void testApp::onCornerChange(ofxGLWarper::CornerLocation & cornerLocation){
+void ofApp::onCornerChange(ofxGLWarper::CornerLocation & cornerLocation){
     switch (cornerLocation) {
         case ofxGLWarper::TOP_LEFT:
             TLPosition = warper.getCorner(cornerLocation);

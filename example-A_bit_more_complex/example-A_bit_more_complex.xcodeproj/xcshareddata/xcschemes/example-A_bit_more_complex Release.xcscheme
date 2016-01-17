@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "example-events.app"
-               BlueprintName = "example-events"
-               ReferencedContainer = "container:example-events.xcodeproj">
+               BuildableName = "example-A_bit_more_complex.app"
+               BlueprintName = "example-A_bit_more_complex"
+               ReferencedContainer = "container:example-A_bit_more_complex.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-events.app"
-            BlueprintName = "example-events"
-            ReferencedContainer = "container:example-events.xcodeproj">
+            BuildableName = "example-A_bit_more_complex.app"
+            BlueprintName = "example-A_bit_more_complex"
+            ReferencedContainer = "container:example-A_bit_more_complex.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-events.app"
-            BlueprintName = "example-events"
-            ReferencedContainer = "container:example-events.xcodeproj">
+            BuildableName = "example-A_bit_more_complex.app"
+            BlueprintName = "example-A_bit_more_complex"
+            ReferencedContainer = "container:example-A_bit_more_complex.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-events.app"
-            BlueprintName = "example-events"
-            ReferencedContainer = "container:example-events.xcodeproj">
+            BuildableName = "example-A_bit_more_complex.app"
+            BlueprintName = "example-A_bit_more_complex"
+            ReferencedContainer = "container:example-A_bit_more_complex.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,8 +1,8 @@
-#include "testApp.h"
+#include "ofApp.h"
 #include "stdio.h"
 
 //--------------------------------------------------------------
-void testApp::setup(){	 
+void ofApp::setup(){	 
 	//we run at 60 fps!
 	warper.setup(); //initializates ofxGLWarper
 	warper.activate();// this allows ofxGLWarper to automatically listen to the mouse and keyboard input and updates automatically it's matrixes.
@@ -28,7 +28,7 @@ void testApp::setup(){
 }
 
 //--------------------------------------------------------------
-void testApp::update(){	
+void ofApp::update(){	
 
 	ofBackground(20, 20, 20);
 	ofSetWindowShape(800, 600);
@@ -39,7 +39,7 @@ void testApp::update(){
 	
 }
 //--------------------------------------------------------------
-void testApp::draw(){
+void ofApp::draw(){
 	
 	warper.begin();	///all the things that are drawn AFTER begin and BEFORE end ofxGLWarper's methods are afected by ofxGLWarper.
 					/// Todos los elementos dibujados DESPUES de el metodo begin y ANTES de el metodo end de ofxGLWarper estar‡n afectados por ofxGLWarper.
@@ -82,7 +82,7 @@ void testApp::draw(){
 	ofDrawBitmapString("Press the space bar to activate/deactivate the warpers\nPress 's' to save to XML file\nPress 'l' to load from a XML file.", 50, ofGetHeight() -70);
 }
 //--------------------------------------------------------------
-void testApp::keyPressed(int key){
+void ofApp::keyPressed(int key){
 switch (key) {
 	case ' ':
 		if (warper.isActive()) {
@@ -105,12 +105,12 @@ switch (key) {
 }
 }
 //--------------------------------------------------------------
-void testApp::keyReleased(int key){}
+void ofApp::keyReleased(int key){}
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){}
+void ofApp::mouseMoved(int x, int y ){}
 //--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){}
+void ofApp::mouseDragged(int x, int y, int button){}
 //--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){}
+void ofApp::mousePressed(int x, int y, int button){}
 //--------------------------------------------------------------
-void testApp::mouseReleased(){}
+void ofApp::mouseReleased(){}

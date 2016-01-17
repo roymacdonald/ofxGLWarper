@@ -1,6 +1,4 @@
-#ifndef _TEST_APP
-#define _TEST_APP
-
+#pragma once
 
 #include "ofMain.h"
 #include "ofxGLWarper.h"
@@ -54,7 +52,7 @@ public:
 	
 };
 
-class testApp : public ofSimpleApp{
+class ofApp : public ofSimpleApp{
 	
 	public:
 		
@@ -80,5 +78,4 @@ class testApp : public ofSimpleApp{
 		
 };
 
-#endif	
 

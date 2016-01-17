@@ -206,7 +206,7 @@ void ofxGLWarper::draw(){
 		ofPushStyle();
 		ofSetColor(255, 255, 255);
 		ofNoFill();
-		ofRect(x, y, width, height);
+		ofDrawRectangle(x, y, width, height);
 		ofPopStyle();
 	}
 }
@@ -230,7 +230,7 @@ void ofxGLWarper::end(){
             }else{
                 ofSetColor(255, 255, 0);
             }
-            ofRect(corners[i], 10, 10);
+            ofDrawRectangle(corners[i], 10, 10);
         }
         ofPopStyle();
     }
@@ -370,6 +370,11 @@ void ofxGLWarper::mouseMoved(ofMouseEventArgs &args){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseScrolled(ofMouseEventArgs &args){}
+//--------------------------------------------------------------
+void ofxGLWarper::mouseEntered(ofMouseEventArgs &args){}
+//--------------------------------------------------------------
+void ofxGLWarper::mouseExited(ofMouseEventArgs &args){}
+
 //--------------------------------------------------------------
 void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
         switch (args.key) {
