@@ -41,11 +41,8 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 	corners[3].y = _y + _h;
     
 	active=false;
-	
-	for(int i = 0; i < 16; i++){
-		if(i % 5 != 0) myMatrix[i] = 0.0;
-		else myMatrix[i] = 1.0;
-	}
+
+        myMatrix = ofMatrix4x4(); // identity
 	x=_x;
 	y=_y;
 	width=_w;
@@ -110,10 +107,7 @@ void ofxGLWarper::setUseKeys(bool use){
 void ofxGLWarper::processMatrices(){
 	//we set it to the default - 0 translation
 	//and 1.0 scale for x y z and w
-	for(int i = 0; i < 16; i++){
-		if(i % 5 != 0) myMatrix[i] = 0.0;
-		else myMatrix[i] = 1.0;
-	}
+    myMatrix = ofMatrix4x4(); // default constructor generates identity
 	
 	//we need our points as opencv points
 	//be nice to do this without opencv?
@@ -183,22 +177,20 @@ void ofxGLWarper::processMatrices(){
 	// ie:   [0][3][ ][6]
 	//       [1][4][ ][7]
 	//		 [ ][ ][ ][ ]
-	//       [2][5][ ][9]
+	//       [2][5][ ][8]
 	//       
-	
-	myMatrix[0]		= matrix[0];
-	myMatrix[4]		= matrix[1];
-	myMatrix[12]	= matrix[2];
-	
-	myMatrix[1]		= matrix[3];
-	myMatrix[5]		= matrix[4];
-	myMatrix[13]	= matrix[5];	
-	
-	myMatrix[3]		= matrix[6];
-	myMatrix[7]		= matrix[7];
-	myMatrix[15]	= matrix[8];	
-	
-	
+
+        myMatrix(0,0) = matrix[0];
+        myMatrix(1,0) = matrix[1];
+        myMatrix(3,0) = matrix[2];
+
+        myMatrix(0,1) = matrix[3];
+        myMatrix(1,1) = matrix[4];
+        myMatrix(3,1) = matrix[5];
+
+        myMatrix(0,3) = matrix[6];
+        myMatrix(1,3) = matrix[7];
+        myMatrix(3,3) = matrix[8];
 }
 //--------------------------------------------------------------
 void ofxGLWarper::draw(){
@@ -215,12 +207,12 @@ void ofxGLWarper::begin(){
 	if (active) {
 		processMatrices();
 	}
-	glPushMatrix();
-	glMultMatrixf(myMatrix);
+	ofPushMatrix();
+	ofMultMatrix(myMatrix); 
 }
 //--------------------------------------------------------------
 void ofxGLWarper::end(){
-	glPopMatrix();
+	ofPopMatrix();
     if (active) {// this draws colored squares over the corners as a visual aid. 
         ofPushStyle();
         ofSetRectMode(OF_RECTMODE_CENTER);
@@ -410,10 +402,8 @@ ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
 	mousePoint.w = 1.0;
 	
 	// i create a ofMatrix4x4 with the ofxGLWarper myMatrixData in column order
-	ofMatrix4x4 myOFmatrix = ofMatrix4x4(myMatrix[0], myMatrix[4],myMatrix[8],myMatrix[12],
-										 myMatrix[1], myMatrix[5],myMatrix[9], myMatrix[13],
-										 myMatrix[2], myMatrix[6],myMatrix[10],myMatrix[14],
-										 myMatrix[3],myMatrix[7],myMatrix[11],myMatrix[15]);
+	ofMatrix4x4 myOFmatrix = ofMatrix4x4::getTransposedOf(myMatrix);
+
 	// do not invert the matrix 
 	ofMatrix4x4 invertedMyMatrix = myOFmatrix.getInverse();	
 	//ofMatrix4x4 invertedMyMatrix = myOFmatrix;
@@ -440,10 +430,8 @@ ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
 	mousePoint.w = 1.0;
 	
 	// i create a ofMatrix4x4 with the ofxGLWarper myMatrixData in column order
-	ofMatrix4x4 myOFmatrix = ofMatrix4x4(myMatrix[0], myMatrix[4],myMatrix[8],myMatrix[12],
-										 myMatrix[1], myMatrix[5],myMatrix[9], myMatrix[13],
-										 myMatrix[2], myMatrix[6],myMatrix[10],myMatrix[14],
-										 myMatrix[3],myMatrix[7],myMatrix[11],myMatrix[15]);
+	ofMatrix4x4 myOFmatrix = ofMatrix4x4::getTransposedOf(myMatrix);
+
 	// invert the matrix 
 	//ofMatrix4x4 invertedMyMatrix = myOFmatrix.getInverse();	
 	ofMatrix4x4 invertedMyMatrix = myOFmatrix;

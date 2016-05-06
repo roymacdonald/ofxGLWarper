@@ -80,7 +80,7 @@ private:
 	bool active;
 	ofPoint corners[4];
 	int whichCorner;
-	GLfloat myMatrix[16];
+    ofMatrix4x4 myMatrix;
     float cornerSensibility;
     bool cornerSelected;
     bool bUseKeys;
