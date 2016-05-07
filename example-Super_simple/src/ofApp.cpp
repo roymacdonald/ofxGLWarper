@@ -6,7 +6,6 @@ void ofApp::setup(){
 	//we run at 60 fps!
 	warper.setup(); //initializates ofxGLWarper
 	warper.activate();// this allows ofxGLWarper to automatically listen to the mouse and keyboard input and updates automatically it's matrixes.
-	ofSetVerticalSync(true);
 	
 	//lets load a test image too
 	img.load("image.jpg");
@@ -23,7 +22,7 @@ void ofApp::draw(){
 
 	warper.begin();	///all the things that are drawn AFTER ofxGLWarper's draw method are afected by it.
 					///el metodo draw de ofxGLWarper afecta a todos los elementos dibujados despues si.
-	warper.draw(); //when active draws a rectangle around the warper area.
+	warper.draw(); //when active, ofxGLWarper draws a rectangle around the warped area.
 	// -- NOW LETS DRAW!!!!!!  -----
 	
 	img.draw(70, 120);

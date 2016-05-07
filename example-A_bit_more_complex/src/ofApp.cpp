@@ -9,12 +9,12 @@ void ofApp::setup(){
 	ofSetVerticalSync(true);
 	
 	//loads load in some truetype fonts
-	ttf.loadFont("type/mono.ttf", 22);
-	ttf2.loadFont("type/mono.ttf", 14);
+	ttf.load("type/mono.ttf", 22);
+	ttf2.load("type/mono.ttf", 14);
 
 	
 	//lets load a test image too
-	img.loadImage("image.jpg");
+	img.load("image.jpg");
 	
 	
 	//lets setup some stupid particles
@@ -54,7 +54,7 @@ void ofApp::draw(){
 	//lets draw a bounding box
 	ofNoFill();
 	ofSetHexColor(0xFF00FF);
-	ofRect(1, 1, ofGetWidth()-2, ofGetHeight()-2);
+	ofDrawRectangle(1, 1, ofGetWidth()-2, ofGetHeight()-2);
   
 	
 	//our particles

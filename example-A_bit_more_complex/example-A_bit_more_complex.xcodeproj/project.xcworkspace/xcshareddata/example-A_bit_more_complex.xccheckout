@@ -5,13 +5,13 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>B1C7D5C6-4A03-423F-8320-E0DEF4A6E486</string>
+	<string>93F20A3D-A6D0-4EA9-8C89-97378E983170</string>
 	<key>IDESourceControlProjectName</key>
 	<string>example-A_bit_more_complex</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>DC744C201458BB726B805B47CA1BBE00990C1814</key>
-		<string>github.com:roymacdonald/ofxGLWarper.git</string>
+		<string>https://github.com/roymacdonald/ofxGLWarper.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>example-A_bit_more_complex/example-A_bit_more_complex.xcodeproj</string>
@@ -21,7 +21,7 @@
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>github.com:roymacdonald/ofxGLWarper.git</string>
+	<string>https://github.com/roymacdonald/ofxGLWarper.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

@@ -43,7 +43,7 @@ public:
 	
 	void draw(){	
 		ofSetRectMode(OF_RECTMODE_CENTER);
-		ofCircle(pos.x, pos.y,  pos.z);
+		ofDrawCircle(pos.x, pos.y,  pos.z);
 		ofSetRectMode(OF_RECTMODE_CORNER);			
 	}
 	
