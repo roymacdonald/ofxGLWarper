@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofxGLWarper.h"
 
-class ofApp : public ofSimpleApp{
+class ofApp : public ofBaseApp{
 	
 	public:
 		
