@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxGlWarper.h"
+#include "ofxGLWarper.h"
 
 class ofApp : public ofBaseApp{
 public:

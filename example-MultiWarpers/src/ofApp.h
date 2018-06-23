@@ -5,7 +5,7 @@
 
 #define NUM_WARPERS 4
 
-class ofApp : public ofSimpleApp{
+class ofApp : public ofBaseApp{
 	
 	public:
 		
