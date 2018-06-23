@@ -52,7 +52,7 @@ public:
 	
 };
 
-class ofApp : public ofSimpleApp{
+class ofApp : public ofBaseApp{
 	
 	public:
 		
