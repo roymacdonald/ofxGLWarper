@@ -10,12 +10,12 @@ void ofApp::setup(){
 	//we run at 60 fps!
     warper.setup(70, 120, img.getWidth(), img.getHeight()); //initializates ofxGLWarper
 	warper.activate();// this allows ofxGLWarper to automatically listen to the mouse and keyboard input and updates automatically it's matrixes.
-	
+    ofBackground(20, 20, 20);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	ofBackground(20, 20, 20);
+
 	
 }
 //--------------------------------------------------------------

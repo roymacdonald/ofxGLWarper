@@ -11,9 +11,13 @@ xcuserdata/
 *.sdf
 *.suo
 *.ipch
+*.qbs
+*.qbs.user
+*.plist
 
 .svn/
 obj/
 
-build/
+build*/
 !data/
+D:\of_v20180502_msys2_release\addons\ofxGLWarper\build-example-MultiWarpers-Desktop-Debug/
