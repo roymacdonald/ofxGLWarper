@@ -20,4 +20,5 @@ obj/
 
 build*/
 !data/
-D:\of_v20180502_msys2_release\addons\ofxGLWarper\build-example-MultiWarpers-Desktop-Debug/
+
+fmodex.dll
