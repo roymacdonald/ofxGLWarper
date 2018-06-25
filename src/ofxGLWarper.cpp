@@ -115,8 +115,8 @@ void ofxGLWarper::processMatrices(){
 	//corners are in 0.0 - 1.0 range
 	//so we scale up so that they are at the window's scale
 	for(int i = 0; i < 4; i++){
-		//cvdst[i].x = corners[i].x  * (float)width;
-		//cvdst[i].y = corners[i].y * (float)height;
+        //cvdst[i].x = corners[i].x  * static_cast<float>(width);
+        //cvdst[i].y = corners[i].y * static_cast<float>(height);
         cvdst[i].x = corners[i].x;
 		cvdst[i].y = corners[i].y;
 	}
@@ -255,11 +255,10 @@ void ofxGLWarper::loadFromXml(ofxXmlSettings &XML){
 		return;
 	}
 	for(int i =0; i<4; i++){
-		int t = XML.addTag("corner");
 		XML.pushTag("corner", i);
 		if (XML.tagExists("x") && XML.tagExists("y")){
-			corners[i].x = XML.getValue("x", double(1.0));
-			corners[i].y = XML.getValue("y", double(1.0));
+            corners[i].x = XML.getValue("x", double(1.0));
+            corners[i].y = XML.getValue("y", double(1.0));
 		}
 		XML.popTag();
 	}
@@ -288,8 +287,8 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 
     cornerSelected = false;
 	for(int i = 0; i < 4; i++){
-		float distx = corners[i].x - (float)args.x;
-		float disty = corners[i].y - (float)args.y;
+        float distx = corners[i].x - static_cast<float>(args.x);
+        float disty = corners[i].y - static_cast<float>(args.y);
 		float dist  = sqrt( distx * distx + disty * disty);
 		ofLogVerbose() << "mouse to corner dist: " << dist << endl;
 		if(dist < smallestDist && dist < sensFactor ){
