@@ -61,7 +61,7 @@ void ofxGLWarper::deactivate(){
     }
 }
 //--------------------------------------------------------------
-void ofxGLWarper::toogleActive(){
+void ofxGLWarper::toggleActive(){
     if(!active){
         activate();
         ofLogVerbose() << "activate"<<endl;
@@ -79,7 +79,7 @@ void ofxGLWarper::enableKeys(bool k){
     }
 }
 //--------------------------------------------------------------
-void ofxGLWarper::toogleKeys(){
+void ofxGLWarper::toggleKeys(){
     enableKeys(!bUseKeys);
 }
 //--------------------------------------------------------------
