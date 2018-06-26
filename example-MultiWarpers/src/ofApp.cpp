@@ -9,14 +9,16 @@ void ofApp::setup(){
         warpers.back().setup((i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight(),img.getWidth(), img.getHeight());
        //warpers.back().activate();
     }
-    ofSetVerticalSync(true);
+    //ofSetVerticalSync(true); // is enabled by default since OF 0.8
 	
 	activeWarper =-1;
+
+    ofBackground(20, 20, 20);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){	
-	ofBackground(20, 20, 20);
+
 	
 }
 //--------------------------------------------------------------
@@ -25,7 +27,6 @@ void ofApp::draw(){
         warpers[i].begin();	
         warpers[i].draw(); 
         img.draw((i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight());
-        warpers[i].draw();
         warpers[i].end();
 	}
     ofDrawBitmapString("Press keys 1 to 4 to toggle each warper", 20, 50);
@@ -36,24 +37,24 @@ void ofApp::keyPressed(int key){
     switch (key) {
         case '1':
             activeWarper=0;
-            warpers[0].toogleActive();
+            warpers[0].toggleActive();
             bDeactivateOthers =true;
             break;
             //*
         case '2':
             activeWarper=1;
-            warpers[1].toogleActive();
+            warpers[1].toggleActive();
             bDeactivateOthers =true;
             break;
         case '3':
             activeWarper=2;        
             bDeactivateOthers =true;
-            warpers[2].toogleActive();
+            warpers[2].toggleActive();
             break;
         case '4':
             activeWarper=3;        
             bDeactivateOthers =true;
-            warpers[3].toogleActive();
+            warpers[3].toggleActive();
             break; 
             //*/
             default:

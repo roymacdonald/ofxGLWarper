@@ -4,7 +4,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){	 
 	//we run at 60 fps!
-	warper.setup(); //initializates ofxGLWarper
+    warper.setup(); //initializates ofxGLWarper
 	warper.activate();// this allows ofxGLWarper to automatically listen to the mouse and keyboard input and updates automatically it's matrixes.
 	ofSetVerticalSync(true);
 	
@@ -22,16 +22,14 @@ void ofApp::setup(){
 		balls[i].setup(ofRandom(10, ofGetWidth() - 10), ofRandom(10, ofGetHeight()-10), ofRandom(5, 25));
 		balls[i].vel.x = ofRandom(1.5, 2.8);
 		balls[i].vel.y = ofRandom(1.5, 2.8);
-	}	
-	
+    }
+
+    ofBackground(20, 20, 20);
 	
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){	
-
-	ofBackground(20, 20, 20);
-	ofSetWindowShape(800, 600);
 	
 	for(int i = 0; i < 80; i++){
 		balls[i].update(ofGetWidth(), ofGetHeight());

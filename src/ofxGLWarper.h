@@ -52,13 +52,13 @@ public:
 	void saveToXml(ofxXmlSettings& XML);
 	void loadFromXml(ofxXmlSettings& XML);
 	
-    void toogleActive();
+    void toggleActive();
 	void activate();
 	void deactivate();
 	bool isActive();
     
 	void enableKeys(bool k = true);
-    void toogleKeys();
+    void toggleKeys();
     bool getUseKeys();
     void setUseKeys(bool use = true);
     

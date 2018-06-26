@@ -11,9 +11,14 @@ xcuserdata/
 *.sdf
 *.suo
 *.ipch
+*.qbs
+*.qbs.user
+*.plist
 
 .svn/
 obj/
 
-build/
+build*/
 !data/
+
+fmodex.dll
