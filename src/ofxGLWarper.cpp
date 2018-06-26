@@ -257,8 +257,8 @@ void ofxGLWarper::loadFromXml(ofxXmlSettings &XML){
 	for(int i =0; i<4; i++){
 		XML.pushTag("corner", i);
 		if (XML.tagExists("x") && XML.tagExists("y")){
-            corners[i].x = XML.getValue("x", double(1.0));
-            corners[i].y = XML.getValue("y", double(1.0));
+            corners[i].x = XML.getValue("x", static_cast<double>(1.0));
+            corners[i].y = XML.getValue("y", static_cast<double>(1.0));
 		}
 		XML.popTag();
 	}
@@ -287,8 +287,8 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 
     cornerSelected = false;
 	for(int i = 0; i < 4; i++){
-        float distx = corners[i].x - static_cast<float>(args.x);
-        float disty = corners[i].y - static_cast<float>(args.y);
+        float distx = corners[i].x - args.x;
+        float disty = corners[i].y - args.y;
 		float dist  = sqrt( distx * distx + disty * disty);
 		ofLogVerbose() << "mouse to corner dist: " << dist << endl;
 		if(dist < smallestDist && dist < sensFactor ){
