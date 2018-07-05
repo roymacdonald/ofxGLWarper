@@ -1,5 +1,4 @@
 #include "ofxGLWarper.h"
-//#include "stdio.h"
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/core/core_c.h"
 
