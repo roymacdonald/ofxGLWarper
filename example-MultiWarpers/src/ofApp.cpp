@@ -26,7 +26,7 @@ void ofApp::draw(){
     for (int i =0; i<NUM_WARPERS; i++){
         warpers[i].begin();	
         warpers[i].draw(); 
-        img.draw((i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight());
+		img.draw(0,0);//(i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight());
         warpers[i].end();
 	}
     ofDrawBitmapString("Press keys 1 to 4 to toggle each warper", 20, 50);

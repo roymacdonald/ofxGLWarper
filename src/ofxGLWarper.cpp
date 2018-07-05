@@ -103,14 +103,14 @@ void ofxGLWarper::processMatrices(){
 	
 	//we set the warp coordinates
 	//source coordinates as the dimensions of our window
-	cvsrc[0].x = x;
-	cvsrc[0].y = y;
-	cvsrc[1].x = x+width;
-	cvsrc[1].y = y;
-	cvsrc[2].x = x+width;
-	cvsrc[2].y = y+height;
-	cvsrc[3].x = x;
-	cvsrc[3].y = y+height;			
+	cvsrc[0].x = 0;//x;
+	cvsrc[0].y = 0;//y;
+	cvsrc[1].x = width;//x+width;
+	cvsrc[1].y = 0;//y;
+	cvsrc[2].x = width;//x+width;
+	cvsrc[2].y = height;//y+height;
+	cvsrc[3].x = 0;//x;
+	cvsrc[3].y = height;//y+height;			
 	
 	//corners are in 0.0 - 1.0 range
 	//so we scale up so that they are at the window's scale
