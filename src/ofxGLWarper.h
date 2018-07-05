@@ -66,6 +66,7 @@ public:
 	ofVec4f	fromWarpToScreenCoord(float x,float y,float z);
     
     void setCorner(CornerLocation cornerLocation, ofPoint screenLocation);
+    void setAllCorners(ofPoint& top_left, ofPoint& top_right, ofPoint& bot_left, ofPoint& bot_right);
     ofPoint getCorner(CornerLocation cornerLocation);
         
     void setCornerSensibility(float sensibility);

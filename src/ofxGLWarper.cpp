@@ -1,5 +1,5 @@
 #include "ofxGLWarper.h"
-#include "stdio.h"
+//#include "stdio.h"
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/core/core_c.h"
 
@@ -382,6 +382,16 @@ void ofxGLWarper::setCorner(CornerLocation cornerLocation, ofPoint screenLocatio
 
     CornerLocation location = cornerLocation;
     ofNotifyEvent(changeEvent, location, this);
+}
+//--------------------------------------------------------------
+void ofxGLWarper::setAllCorners(ofPoint& top_left, ofPoint &top_right, ofPoint &bot_left, ofPoint &bot_right){
+    //if you want to set all corners and avoid 3 useless processMatrices()
+    corners[TOP_LEFT] = top_left;
+    corners[TOP_RIGHT] = top_right;
+    corners[BOTTOM_LEFT] = bot_left;
+    corners[BOTTOM_RIGHT] = bot_right;
+
+    processMatrices();
 }
 //--------------------------------------------------------------
 ofPoint ofxGLWarper::getCorner(CornerLocation cornerLocation){
