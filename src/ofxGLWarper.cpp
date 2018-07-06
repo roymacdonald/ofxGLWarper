@@ -29,6 +29,7 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 	active=false;
 
     myMatrix = ofMatrix4x4(); // identity
+
 	x=_x;
 	y=_y;
 	width=_w;
@@ -37,6 +38,8 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     cornerSelected = false;
     cornerSensibility = 0.5;
     bUseKeys = true;
+
+    processMatrices();
 }
 //--------------------------------------------------------------
 bool ofxGLWarper::isActive(){
@@ -100,10 +103,10 @@ void ofxGLWarper::processMatrices(){
 	
 	//we set the warp coordinates
 	//source coordinates as the dimensions of our window
-    cvsrc[0].set(x,y);
-    cvsrc[1].set(x+width,y);
-    cvsrc[2].set(x+width,y+height);
-    cvsrc[3].set(x,y+height);
+    cvsrc[0].set(0,0);
+    cvsrc[1].set(width,0);
+    cvsrc[2].set(width,height);
+    cvsrc[3].set(0,height);
 
 	//corners are in 0.0 - 1.0 range
 	//so we scale up so that they are at the window's scale
@@ -121,9 +124,9 @@ void ofxGLWarper::processMatrices(){
 void ofxGLWarper::draw(){
 	if (active) {
 		ofPushStyle();
-		ofSetColor(255, 255, 255);
+        ofSetColor(255, 255, 255);
 		ofNoFill();
-		ofDrawRectangle(x, y, width, height);
+        ofDrawRectangle(x, y, width, height);
 		ofPopStyle();
 	}
 }
@@ -133,7 +136,9 @@ void ofxGLWarper::begin(){
 		processMatrices();
 	}
 	ofPushMatrix();
-	ofMultMatrix(myMatrix); 
+    ofMultMatrix(myMatrix);
+
+    ofTranslate(-1*x,-1*y); //if not, you have to draw from warper's origin. As you wish.
 }
 //--------------------------------------------------------------
 void ofxGLWarper::end(){

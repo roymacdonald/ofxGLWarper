@@ -22,11 +22,11 @@ public:
 			// Find pivot in column j, starting in row i:
 			int maxi = i;
 			for(int k = i+1; k<m; k++){
-				if(fabs(A[k*n+j]) > fabs(A[maxi*n+j])){
-					maxi = k;
+                if(fabs(A[k*n+j]) > fabs(A[maxi*n+j])){
+                    maxi = k;
 				}
 			}
-			if (A[maxi*n+j] != 0){
+            if (A[maxi*n+j] != 0){
 				//swap rows i and maxi, but do not change the value of i
 				if(i!=maxi)
 					for(int k=0;k<n;k++){
