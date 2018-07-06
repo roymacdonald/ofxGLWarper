@@ -82,7 +82,6 @@ private:
 	ofPoint corners[4];
 	int whichCorner;
     ofMatrix4x4 myMatrix;
-    ofRectangle boundingBox;
     float cornerSensibility;
     bool cornerSelected;
     bool bUseKeys;
