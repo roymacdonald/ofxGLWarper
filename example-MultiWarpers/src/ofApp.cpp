@@ -1,10 +1,9 @@
 #include "ofApp.h"
-#include "stdio.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){	 
 	img.load("image.jpg");
-	for (int i =0; i<NUM_WARPERS; i++){
+    for (unsigned int i =0; i<NUM_WARPERS; i++){
         warpers.push_back(ofxGLWarper());
         warpers.back().setup((i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight(),img.getWidth(), img.getHeight());
        //warpers.back().activate();
@@ -23,7 +22,7 @@ void ofApp::update(){
 }
 //--------------------------------------------------------------
 void ofApp::draw(){
-    for (int i =0; i<NUM_WARPERS; i++){
+    for (unsigned int i =0; i<NUM_WARPERS; i++){
         warpers[i].begin();	
         warpers[i].draw(); 
         img.draw((i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight());
@@ -62,7 +61,7 @@ void ofApp::keyPressed(int key){
     }
     
     if (bDeactivateOthers) {
-        for (int i =0; i<NUM_WARPERS; i++){
+        for (unsigned int i =0; i<NUM_WARPERS; i++){
             if (i!=activeWarper) {
                 warpers[i].deactivate();
             }

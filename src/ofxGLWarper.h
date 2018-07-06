@@ -1,8 +1,6 @@
 #ifndef _GL_WARPER
 #define _GL_WARPER
 
-#define OF_ADDON_USING_OFOPENCV
-
 #include "ofMain.h"
 #include "ofxXmlSettings.h"
 // ofxGLWarper by Roy Macdonald

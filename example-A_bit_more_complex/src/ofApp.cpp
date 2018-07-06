@@ -1,5 +1,4 @@
 #include "ofApp.h"
-#include "stdio.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){	 

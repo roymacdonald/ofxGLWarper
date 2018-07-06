@@ -1,3 +1,2 @@
 ofxGLWarper
-ofxOpenCv
 ofxXmlSettings
