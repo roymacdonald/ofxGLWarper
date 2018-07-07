@@ -158,15 +158,16 @@ void ofxGLWarper::end(){
     }
 }
 //--------------------------------------------------------------
-void ofxGLWarper::save(string saveFile){
+void ofxGLWarper::save(const string &saveFile){
     ofXml XML;
     saveToXml(XML);
     XML.save(saveFile);
 }
 //--------------------------------------------------------------
-void ofxGLWarper::saveToXml(ofXml &XML){
+void ofxGLWarper::saveToXml(ofXml &XML, const string& warperID){
     
-    auto c = XML.appendChild("corners");
+    XML.removeChild(warperID);//if child doesn't exist yet, it's ok.
+    auto c = XML.appendChild(warperID);
     for(int i =0; i<4; i++){
 		auto nc = c.appendChild("corner");
 		nc.appendChild("x").set(corners[i].x);
@@ -175,7 +176,7 @@ void ofxGLWarper::saveToXml(ofXml &XML){
     c.appendChild("active").set(active);
 }
 //--------------------------------------------------------------
-void ofxGLWarper::load(string loadFile){
+void ofxGLWarper::load(const string &loadFile){
     ofXml XML;
     if( !XML.load(loadFile) ){
         ofLog(OF_LOG_ERROR, "ofxGLWarper : xml file not loaded. Check file path.");
@@ -185,10 +186,10 @@ void ofxGLWarper::load(string loadFile){
 }
 
 //--------------------------------------------------------------
-void ofxGLWarper::loadFromXml(ofXml &XML){
-	auto c = XML.getChild("corners");
+void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
+    auto c = XML.getChild(warperID);
     if(!c){
-        ofLog(OF_LOG_ERROR, "ofxGLWarper : incorrrect xml formating. No \"corners\" tag found");
+        ofLog(OF_LOG_ERROR, "ofxGLWarper : incorrrect xml formating. No \"" + warperID + "\" tag found");
         return;
     }
 	
@@ -203,10 +204,11 @@ void ofxGLWarper::loadFromXml(ofXml &XML){
 		corners[i].y = ch.getChild("y").getFloatValue();
 		i++;
     }
-    active = c.getChild("active").getBoolValue();
+
+    (c.getChild("active").getBoolValue()) ? this->activate() : this->deactivate() ;
 
     processMatrices();
-    ofLog(OF_LOG_WARNING, "ofxGLWarper : xml object loaded OK!.");
+    //ofLog(OF_LOG_WARNING, "ofxGLWarper : xml object loaded OK!."); // Since the method works, this can be quiet...
 
 }
 //--------------------------------------------------------------

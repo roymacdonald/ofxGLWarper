@@ -39,7 +39,6 @@ void ofApp::keyPressed(int key){
             warpers[0].toggleActive();
             bDeactivateOthers =true;
             break;
-            //*
         case '2':
             activeWarper=1;
             warpers[1].toggleActive();
@@ -56,7 +55,32 @@ void ofApp::keyPressed(int key){
             warpers[3].toggleActive();
             break; 
             //*/
-            default:
+        default:
+            //here are two methods of saving:
+            //the first one saves multiple warpers in the same file, but you have to manage an ofXml object.
+            if (key == 's'){
+                for (unsigned int var = 0; var < NUM_WARPERS; ++var) {
+                    warpers[var].saveToXml(XML, "warper" + ofToString(var));
+                }
+                XML.save("saveFile.xml");
+            }
+            if (key == 'l'){
+                XML.load("saveFile.xml");
+                for (unsigned int var = 0; var < NUM_WARPERS; ++var) {
+                    warpers[var].loadFromXml(XML, "warper" + ofToString(var));
+                }
+            }
+            //the second one is one file per save, but you don't have to manage an ofXml object.
+            if (key == 'S'){
+                for (unsigned int var = 0; var < NUM_WARPERS; ++var) {
+                warpers[var].save("warper" + ofToString(var) + ".xml");
+                }
+            }
+            if (key == 'L'){
+                for (unsigned int var = 0; var < NUM_WARPERS; ++var) {
+                warpers[var].load("warper" + ofToString(var) + ".xml");
+                }
+            }
             break;
     }
     

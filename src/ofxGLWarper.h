@@ -43,11 +43,11 @@ public:
     
 	void processMatrices();
 	
-	void save(string saveFile = "warpConfig.xml");
-	void load(string loadFile = "warpConfig.xml");
+    void save(const string& saveFile = "warpConfig.xml");
+    void load(const string& loadFile = "warpConfig.xml");
 	
-	void saveToXml(ofXml& XML);
-	void loadFromXml(ofXml& XML);
+    void saveToXml(ofXml& XML, const string& warperID = "corners");
+    void loadFromXml(ofXml& XML, const string& warperID = "corners");
 	
     void toggleActive();
 	void activate();

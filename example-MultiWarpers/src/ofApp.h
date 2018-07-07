@@ -21,7 +21,8 @@ class ofApp : public ofBaseApp{
 		void mouseReleased();
 
 		vector<ofxGLWarper> warpers;
-	
+
+        ofXml XML;
 		ofImage img;
     int activeWarper;
 };
