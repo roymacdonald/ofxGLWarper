@@ -20,7 +20,7 @@ class ofApp : public ofBaseApp{
 
 		ofxGLWarper warper;
 	
-		ofImage img;
+        ofImage img;
 };
 
 

@@ -24,6 +24,9 @@ void ofApp::setup(){
     warper.setCorner(ofxGLWarper::TOP_RIGHT, TRPosition);
     warper.setCorner(ofxGLWarper::BOTTOM_LEFT, BLPosition);
     warper.setCorner(ofxGLWarper::BOTTOM_RIGHT, BRPosition);
+
+    //alternatively, this works the same:
+    // warper.setAllCorners(TLPosition, TRPosition, BLPosition, BRPosition);
     
     // start listening to events
     ofAddListener(warper.changeEvent, this, &ofApp::onCornerChange);
@@ -53,6 +56,12 @@ void ofApp::draw(){
     ofDrawCircle(TRPosition, 15);
     ofDrawCircle(BLPosition, 15);
     ofDrawCircle(BRPosition, 15);
+
+    //this is an alternative if you don't want to put a listener
+//    ofDrawCircle(warper.getCorner(ofxGLWarper::TOP_LEFT), 15);
+//    ofDrawCircle(warper.getCorner(ofxGLWarper::TOP_RIGHT), 15);
+//    ofDrawCircle(warper.getCorner(ofxGLWarper::BOTTOM_LEFT), 15);
+//    ofDrawCircle(warper.getCorner(ofxGLWarper::BOTTOM_RIGHT), 15);
 }
 
 //--------------------------------------------------------------
