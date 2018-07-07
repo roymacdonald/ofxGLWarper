@@ -57,11 +57,6 @@ void ofApp::draw(){
     ofDrawCircle(BLPosition, 15);
     ofDrawCircle(BRPosition, 15);
 
-    //this is an alternative if you don't want to put a listener
-//    ofDrawCircle(warper.getCorner(ofxGLWarper::TOP_LEFT), 15);
-//    ofDrawCircle(warper.getCorner(ofxGLWarper::TOP_RIGHT), 15);
-//    ofDrawCircle(warper.getCorner(ofxGLWarper::BOTTOM_LEFT), 15);
-//    ofDrawCircle(warper.getCorner(ofxGLWarper::BOTTOM_RIGHT), 15);
 }
 
 //--------------------------------------------------------------
@@ -80,5 +75,15 @@ void ofApp::onCornerChange(ofxGLWarper::CornerLocation & cornerLocation){
             BRPosition = warper.getCorner(cornerLocation);
             break;
 
+    }
+}
+
+void ofApp::keyPressed(int key){
+    if (key == 't'){
+        ofPoint tl(100, 100);
+        ofPoint tr(ofGetWidth()-100, 100);
+        ofPoint bl(100, ofGetHeight()-100);
+        ofPoint br(ofGetWidth()-100, ofGetHeight()-100);
+        warper.setAllCorners(tl,tr,bl,br);
     }
 }

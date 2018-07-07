@@ -335,6 +335,15 @@ void ofxGLWarper::setAllCorners(ofPoint& top_left, ofPoint &top_right, ofPoint &
     corners[BOTTOM_RIGHT] = bot_right;
 
     processMatrices();
+
+    CornerLocation location = TOP_LEFT;
+    ofNotifyEvent(changeEvent, location, this);
+    location = TOP_RIGHT;
+    ofNotifyEvent(changeEvent, location, this);
+    location = BOTTOM_RIGHT;
+    ofNotifyEvent(changeEvent, location, this);
+    location = BOTTOM_LEFT;
+    ofNotifyEvent(changeEvent, location, this);
 }
 //--------------------------------------------------------------
 ofPoint ofxGLWarper::getCorner(CornerLocation cornerLocation){
