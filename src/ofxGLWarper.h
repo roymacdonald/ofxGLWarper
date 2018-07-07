@@ -2,7 +2,6 @@
 #define _GL_WARPER
 
 #include "ofMain.h"
-#include "ofxXmlSettings.h"
 // ofxGLWarper by Roy Macdonald
 // ... / ... 
 //
@@ -11,7 +10,7 @@
 // added resolution of the quad in setup()
 // changed draw() to begin() end() model
 // added fromScreenToWarpCoord() and fromWarpToScreenCoord()
-
+// OpenCv dependency removed by Cyril Communal - 7/2018
 
 
 class ofxGLWarper{
@@ -47,8 +46,8 @@ public:
 	void save(string saveFile = "warpConfig.xml");
 	void load(string loadFile = "warpConfig.xml");
 	
-	void saveToXml(ofxXmlSettings& XML);
-	void loadFromXml(ofxXmlSettings& XML);
+	void saveToXml(ofXml& XML);
+	void loadFromXml(ofXml& XML);
 	
     void toggleActive();
 	void activate();
