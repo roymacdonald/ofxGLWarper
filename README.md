@@ -17,3 +17,5 @@ Based on the openGL image warper example by Theo Watson.
 
 ###### Thanks to Arturo and hv_francesco for their suggestions.
 
+### Updates
+OpenCV is no longer needed. Switched to use ofxHomography, which is included in this addon.
