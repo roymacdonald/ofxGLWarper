@@ -130,9 +130,9 @@ public:
 		original.z = point.z;
 		original.w = 1.0;
 		
-        glm::mat4 transposed = glm::transpose(homography);
+        glm::mat4 invertedMat = glm::inverse(homography);
 		
-		screen = transposed * original;
+        screen = invertedMat * original;
 		
 		screen.x = screen.x / screen.w;
 		screen.y = screen.y / screen.w;

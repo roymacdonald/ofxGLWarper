@@ -61,9 +61,6 @@ public:
     
     glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
     glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);
-
-    //ofVec4f fromScreenToWarpCoord(float x,float y,float z = 0);
-    //ofVec4f fromWarpToScreenCoord(float x,float y,float z = 0);
     
     void setCorner(CornerLocation cornerLocation, ofPoint screenLocation);
     void setAllCorners(ofPoint& top_left, ofPoint& top_right, ofPoint& bot_left, ofPoint& bot_right);
@@ -82,7 +79,6 @@ private:
     ofPoint corners[4];
 	int whichCorner;
     glm::mat4 myMatrix;
-    //ofMatrix4x4 myMatrix;
     float cornerSensibility;
     bool cornerSelected;
     bool bUseKeys;
