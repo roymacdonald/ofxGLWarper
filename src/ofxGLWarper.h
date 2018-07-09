@@ -62,21 +62,20 @@ public:
     glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
     glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);
     
-    void setCorner(CornerLocation cornerLocation, ofPoint screenLocation);
-    void setAllCorners(ofPoint& top_left, ofPoint& top_right, ofPoint& bot_left, ofPoint& bot_right);
-    ofPoint getCorner(CornerLocation cornerLocation);
+    void setCorner(CornerLocation cornerLocation, glm::vec2 screenLocation);
+    void setAllCorners(glm::vec2& top_left, glm::vec2& top_right, glm::vec2& bot_left, glm::vec2& bot_right);
+    glm::vec2 getCorner(CornerLocation cornerLocation);
         
     void setCornerSensibility(float sensibility);
     float getCornerSensibility();
-    
-    ofEvent<CornerLocation> changeEvent;
+
+    ofParameter<glm::vec2> corners[4];
 
 private:
 	int x, y;
 	int  width; //width of the quad to work with
 	int	 height; // height of the quad to work with
 	bool active;
-    ofPoint corners[4];
 	int whichCorner;
     glm::mat4 myMatrix;
     float cornerSensibility;

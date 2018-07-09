@@ -13,18 +13,12 @@ void ofxGLWarper::setup(int _resX, int _resY){
 void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     ofLogVerbose() << "ofxGLWarper setup: " <<_x << " " <<_y << " " <<_w << " " <<_h << endl;
     ofUnregisterMouseEvents(this);
+    ofUnregisterKeyEvents(this);
 
-    corners[0].x = _x;
-    corners[0].y = _y;
-
-    corners[1].x = _x + _w;
-    corners[1].y = _y;
-
-    corners[2].x = _x + _w;
-    corners[2].y = _y + _h;
-
-    corners[3].x = _x;
-    corners[3].y = _y + _h;
+    corners[TOP_LEFT] =     glm::vec2( _x      , _y        );
+    corners[TOP_RIGHT] =    glm::vec2( _x + _w , _y        );
+    corners[BOTTOM_RIGHT] = glm::vec2( _x + _w , _y + _h   );
+    corners[BOTTOM_LEFT] =  glm::vec2( _x      , _y + _h   );
 
     active=false;
 
@@ -97,26 +91,25 @@ void ofxGLWarper::processMatrices(){
     //and 1.0 scale for x y z and w
     myMatrix = glm::mat4(); // default constructor generates identity
 
-    //ofPoints instead of openCV points
-    ofPoint cvsrc[4];
-    ofPoint cvdst[4];
+    glm::vec2 cvsrc[4];
+    glm::vec2 cvdst[4]; //corners is our destination matrix, but we can't pass an ofParameter to findHomography. So we copy.
+    //if you know a way though ...
 
     //we set the warp coordinates
     //source coordinates as the dimensions of our window
-    cvsrc[0].set(0,0);
-    cvsrc[1].set(width,0);
-    cvsrc[2].set(width,height);
-    cvsrc[3].set(0,height);
+    cvsrc[0] = glm::vec2(0,0);
+    cvsrc[1] = glm::vec2(width,0);
+    cvsrc[2] = glm::vec2(width,height);
+    cvsrc[3] = glm::vec2(0,height);
 
     //corners are in 0.0 - 1.0 range
     //so we scale up so that they are at the window's scale
     for(int i = 0; i < 4; i++){
-        cvdst[i].set(corners[i].x,corners[i].y);
+        cvdst[i] = corners[i];
     }
 
 
     //figure out the warping!
-
     myMatrix = ofxHomography::findHomography(cvsrc, cvdst);
 
 }
@@ -170,8 +163,8 @@ void ofxGLWarper::saveToXml(ofXml &XML, const string& warperID){
     auto c = XML.appendChild(warperID);
     for(int i =0; i<4; i++){
 		auto nc = c.appendChild("corner");
-		nc.appendChild("x").set(corners[i].x);
-        nc.appendChild("y").set(corners[i].y);
+        nc.appendChild("x").set(corners[i]->x);
+        nc.appendChild("y").set(corners[i]->y);
     }
     c.appendChild("active").set(active);
 }
@@ -200,8 +193,7 @@ void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
 	auto cor = c.getChildren("corner");
 	int i = 0;
 	for(auto& ch: cor){
-		corners[i].x = ch.getChild("x").getFloatValue();
-		corners[i].y = ch.getChild("y").getFloatValue();
+        corners[i] = glm::vec2(ch.getChild("x").getFloatValue(), ch.getChild("y").getFloatValue());
 		i++;
     }
 
@@ -214,11 +206,7 @@ void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
     if(whichCorner >= 0 && cornerSelected){
-        corners[whichCorner].x = args.x;
-        corners[whichCorner].y = args.y;
-
-        CornerLocation location = (CornerLocation)whichCorner;
-        ofNotifyEvent(changeEvent, location, this);
+        corners[whichCorner] = glm::vec2(args.x, args.y);
     }
 }
 //--------------------------------------------------------------
@@ -230,8 +218,8 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 
     cornerSelected = false;
     for(int i = 0; i < 4; i++){
-        float distx = corners[i].x - args.x;
-        float disty = corners[i].y - args.y;
+        float distx = corners[i]->x - args.x;
+        float disty = corners[i]->y - args.y;
         float dist  = sqrt( distx * distx + disty * disty);
         ofLogVerbose() << "mouse to corner dist: " << dist << endl;
         if(dist < smallestDist && dist < sensFactor ){
@@ -247,22 +235,20 @@ void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
     if (whichCorner >= 0 && cornerSelected) {
         switch (args.key) {
             case OF_KEY_DOWN:
-                corners[whichCorner].y++;
+                corners[whichCorner] += glm::vec2(0,1);
                 break;
             case OF_KEY_UP:
-                corners[whichCorner].y--;
+                corners[whichCorner] += glm::vec2(0,-1);
                 break;
             case OF_KEY_LEFT:
-                corners[whichCorner].x--;
+                corners[whichCorner] += glm::vec2(-1,0);
                 break;
             case OF_KEY_RIGHT:
-                corners[whichCorner].x++;
+                corners[whichCorner] += glm::vec2(1,0);
                 break;
             default:
 			break;
 		}
-        CornerLocation location = static_cast<CornerLocation>(whichCorner);
-        ofNotifyEvent(changeEvent, location, this);
 	}
 }
 
@@ -314,15 +300,12 @@ glm::vec4 ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
     return warpedPoint;
 }
 //--------------------------------------------------------------
-void ofxGLWarper::setCorner(CornerLocation cornerLocation, ofPoint screenLocation){
-    corners[cornerLocation] = screenLocation;// / ofPoint(width, height, 1);
+void ofxGLWarper::setCorner(CornerLocation cornerLocation, glm::vec2 screenLocation){
+    corners[cornerLocation] = screenLocation;// / glm::vec2(width, height);
     processMatrices();
-
-    CornerLocation location = cornerLocation;
-    ofNotifyEvent(changeEvent, location, this);
 }
 //--------------------------------------------------------------
-void ofxGLWarper::setAllCorners(ofPoint& top_left, ofPoint &top_right, ofPoint &bot_left, ofPoint &bot_right){
+void ofxGLWarper::setAllCorners(glm::vec2& top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right){
     //if you want to set all corners and avoid 3 useless processMatrices()
     corners[TOP_LEFT] = top_left;
     corners[TOP_RIGHT] = top_right;
@@ -330,19 +313,10 @@ void ofxGLWarper::setAllCorners(ofPoint& top_left, ofPoint &top_right, ofPoint &
     corners[BOTTOM_RIGHT] = bot_right;
 
     processMatrices();
-
-    CornerLocation location = TOP_LEFT;
-    ofNotifyEvent(changeEvent, location, this);
-    location = TOP_RIGHT;
-    ofNotifyEvent(changeEvent, location, this);
-    location = BOTTOM_RIGHT;
-    ofNotifyEvent(changeEvent, location, this);
-    location = BOTTOM_LEFT;
-    ofNotifyEvent(changeEvent, location, this);
 }
 //--------------------------------------------------------------
-ofPoint ofxGLWarper::getCorner(CornerLocation cornerLocation){
-    return corners[cornerLocation];// * ofPoint(width, height, 1);
+glm::vec2 ofxGLWarper::getCorner(CornerLocation cornerLocation){
+    return corners[cornerLocation];// * glm::vec2(width, height);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::setCornerSensibility(float sensibility){

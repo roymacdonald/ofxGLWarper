@@ -66,7 +66,7 @@ public:
 	
 	
 	template <class T>
-	static void findHomography(T src, T dst, float homography[16]){
+    static void findHomography(T &src, T &dst, float homography[16]){
 		
 		// create the equation system to be solved
 		// src and dst must implement [] operator for point access
@@ -115,7 +115,7 @@ public:
 	}
 	
 	template <class T>
-    static glm::mat4 findHomography(T src, T dst){
+    static glm::mat4 findHomography(T &src, T &dst){
 		float homography[16];
 		findHomography(src, dst, homography);
         return glm::make_mat4(homography);

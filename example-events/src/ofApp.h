@@ -10,13 +10,12 @@ public:
     void draw();
     void keyPressed(int key);
     
-    void onCornerChange(ofxGLWarper::CornerLocation &cornerLocation);
+    void onCornerChange(const void * sender, glm::vec2 &v);
     
     ofxGLWarper warper;
     ofImage image;
     
-    ofPoint TLPosition;
-    ofPoint TRPosition;
-    ofPoint BLPosition;
-    ofPoint BRPosition;
+    glm::vec2 TLPosition, TRPosition, BLPosition, BRPosition;
+
+    float sw, sh, iw, ih;
 };
