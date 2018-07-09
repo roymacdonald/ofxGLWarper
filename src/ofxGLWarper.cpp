@@ -28,7 +28,7 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 
     active=false;
 
-    myMatrix = ofMatrix4x4(); // identity
+    myMatrix = glm::mat4(); // identity
 
     x=_x;
     y=_y;
@@ -95,7 +95,7 @@ void ofxGLWarper::setUseKeys(bool use){
 void ofxGLWarper::processMatrices(){
     //we set it to the default - 0 translation
     //and 1.0 scale for x y z and w
-    myMatrix = ofMatrix4x4(); // default constructor generates identity
+    myMatrix = glm::mat4(); // default constructor generates identity
 
     //ofPoints instead of openCV points
     ofPoint cvsrc[4];
@@ -244,7 +244,7 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 
 //--------------------------------------------------------------
 void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
-	if (whichCorner >= 0 && cornerSelected) {
+    if (whichCorner >= 0 && cornerSelected) {
         switch (args.key) {
             case OF_KEY_DOWN:
                 corners[whichCorner].y++;
@@ -261,28 +261,27 @@ void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
             default:
 			break;
 		}
+        CornerLocation location = static_cast<CornerLocation>(whichCorner);
+        ofNotifyEvent(changeEvent, location, this);
 	}
 }
-//--------------------------------------------------------------
-ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
-    ofVec4f mousePoint;
-    ofVec4f warpedPoint;
+
+ //--------------------------------------------------------------
+glm::vec4 ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
+    glm::vec4 mousePoint;
+    glm::vec4 warpedPoint;
 
     // this is the point on the image which i want to know the coordinates inside the warped system ...
     mousePoint.x = x;
     mousePoint.y = y;
-    mousePoint.z = 0.0;
+    mousePoint.z = z;
     mousePoint.w = 1.0;
 
-    // i create a ofMatrix4x4 with the ofxGLWarper myMatrixData in column order
-    ofMatrix4x4 myOFmatrix = ofMatrix4x4::getTransposedOf(myMatrix);
-
-    // do not invert the matrix
-    ofMatrix4x4 invertedMyMatrix = myOFmatrix.getInverse();
-    //ofMatrix4x4 invertedMyMatrix = myOFmatrix;
+    // with glm matrices, no need to transpose and inverse, because if you have a mat4 and do mat4*vec4,
+    // your vec4 is considered a column vector. If you do vec4*mat4, it is considered a row vector.
 
     // multiply both to get the point transformed by the matrix
-    warpedPoint = invertedMyMatrix * mousePoint ;
+    warpedPoint = myMatrix * mousePoint ;
 
     // we need to normalize the value as described here : http://tech.groups.yahoo.com/group/OpenCV/message/80121
     warpedPoint.x = warpedPoint.x / warpedPoint.w;
@@ -291,23 +290,19 @@ ofVec4f ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
 
     return warpedPoint;
 }
-//--------------------------------------------------------------
-ofVec4f ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
-    ofVec4f mousePoint;
-    ofVec4f warpedPoint;
+ //--------------------------------------------------------------
+glm::vec4 ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
+    glm::vec4 mousePoint;
+    glm::vec4 warpedPoint;
 
     // this is the point inside the warped system which i want to know the coordinates on the image  ...
     mousePoint.x = x;
     mousePoint.y = y;
-    mousePoint.z = 0.0;
+    mousePoint.z = z;
     mousePoint.w = 1.0;
 
-    // i create a ofMatrix4x4 with the ofxGLWarper myMatrixData in column order
-    ofMatrix4x4 myOFmatrix = ofMatrix4x4::getTransposedOf(myMatrix);
-
     // invert the matrix
-    //ofMatrix4x4 invertedMyMatrix = myOFmatrix.getInverse();
-    ofMatrix4x4 invertedMyMatrix = myOFmatrix;
+    glm::mat4 invertedMyMatrix = glm::inverse(myMatrix);
 
     // multiply both to get the point transformed by the matrix
     warpedPoint = invertedMyMatrix * mousePoint ;

@@ -17,7 +17,7 @@ class ofxGLWarper{
 	
 public:
     enum CornerLocation{
-        TOP_LEFT = 0,
+        TOP_LEFT,
         TOP_RIGHT,
         BOTTOM_RIGHT,
         BOTTOM_LEFT
@@ -59,8 +59,11 @@ public:
     bool getUseKeys();
     void setUseKeys(bool use = true);
     
-	ofVec4f	fromScreenToWarpCoord(float x,float y,float z);
-	ofVec4f	fromWarpToScreenCoord(float x,float y,float z);
+    glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
+    glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);
+
+    //ofVec4f fromScreenToWarpCoord(float x,float y,float z = 0);
+    //ofVec4f fromWarpToScreenCoord(float x,float y,float z = 0);
     
     void setCorner(CornerLocation cornerLocation, ofPoint screenLocation);
     void setAllCorners(ofPoint& top_left, ofPoint& top_right, ofPoint& bot_left, ofPoint& bot_right);
@@ -76,9 +79,10 @@ private:
 	int  width; //width of the quad to work with
 	int	 height; // height of the quad to work with
 	bool active;
-	ofPoint corners[4];
+    ofPoint corners[4];
 	int whichCorner;
-    ofMatrix4x4 myMatrix;
+    glm::mat4 myMatrix;
+    //ofMatrix4x4 myMatrix;
     float cornerSensibility;
     bool cornerSelected;
     bool bUseKeys;
