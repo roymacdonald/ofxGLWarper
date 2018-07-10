@@ -56,8 +56,6 @@ public:
 
     void enableKeys(bool k = true);
     void toggleKeys();
-    bool getUseKeys();
-    void setUseKeys(bool use = true);
 
     glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
     glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);

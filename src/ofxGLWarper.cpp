@@ -67,23 +67,16 @@ void ofxGLWarper::toggleActive(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::enableKeys(bool k){
-    if (k) {
+    if (k && active) {
         ofRegisterKeyEvents(this);
     }else{
         ofUnregisterKeyEvents(this);
     }
+    bUseKeys = k;
 }
 //--------------------------------------------------------------
 void ofxGLWarper::toggleKeys(){
     enableKeys(!bUseKeys);
-}
-//--------------------------------------------------------------
-bool ofxGLWarper::getUseKeys(){
-    return bUseKeys;
-}
-//--------------------------------------------------------------
-void ofxGLWarper::setUseKeys(bool use){
-    bUseKeys = use;
 }
 //--------------------------------------------------------------
 void ofxGLWarper::processMatrices(){
