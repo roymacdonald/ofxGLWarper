@@ -1,6 +1,6 @@
 #ifndef _GL_WARPER
 #define _GL_WARPER
-
+//#define CornerLocation CornerID //CornerLocation is now called CornerID
 #include "ofMain.h"
 // ofxGLWarper by Roy Macdonald
 // ... / ... 
@@ -68,8 +68,8 @@ public:
     glm::vec2 getCorner(CornerID cornerID);
 
     void setAllCorners(glm::vec2 &top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right);
-    void moveSurface(glm::vec2 &moveBy);
-    void moveSurface(float byX, float byY);
+    void moveAllCorners(glm::vec2 &moveBy);
+    void moveAllCorners(float byX, float byY);
 
     void setCornerSensibility(float sensibility);
     float getCornerSensibility();

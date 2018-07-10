@@ -45,7 +45,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofBackground(0,0,0);
+    ofBackgroundGradient(ofColor(120,120,120), ofColor(60,60,60));
     
     ofDrawBitmapString("The 'top left' corner is controlled by code.\nAll the other corners are controlled by the mouse.", 50,50);
     warper.begin();

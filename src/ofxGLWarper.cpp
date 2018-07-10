@@ -304,15 +304,15 @@ void ofxGLWarper::setAllCorners(glm::vec2 &top_left, glm::vec2 &top_right, glm::
     processMatrices();
 }
 //--------------------------------------------------------------
-void ofxGLWarper::moveSurface(glm::vec2 &moveBy){
+void ofxGLWarper::moveAllCorners(glm::vec2 &moveBy){
     for (int i = 0; i < 4; ++i) {
-        corners[static_cast<CornerID>(i)] += moveBy;
+        corners[i] += moveBy;
     }
     processMatrices();
 }
-void ofxGLWarper::moveSurface(float byX, float byY){
+void ofxGLWarper::moveAllCorners(float byX, float byY){
     glm::vec2 moveBy(byX,byY);
-    moveSurface(moveBy);
+    moveAllCorners(moveBy);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::selectCorner(CornerID cornerID){
