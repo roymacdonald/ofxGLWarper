@@ -33,7 +33,7 @@ public:
 		
 	void mouseDragged(ofMouseEventArgs &args);
 	void mousePressed(ofMouseEventArgs &args);
-	void mouseReleased(ofMouseEventArgs &args){}
+    void mouseReleased(ofMouseEventArgs &args){}
     void mouseMoved(ofMouseEventArgs &args){}
     void mouseScrolled(ofMouseEventArgs &args){}
     void mouseEntered(ofMouseEventArgs &args){}
@@ -41,35 +41,38 @@ public:
     void keyPressed(ofKeyEventArgs &args);
     void keyReleased(ofKeyEventArgs &args){}
     
-	void processMatrices();
-	
+    void processMatrices();
+
     void save(const string& saveFile = "warpConfig.xml");
     void load(const string& loadFile = "warpConfig.xml");
-	
+
     void saveToXml(ofXml& XML, const string& warperID = "corners");
     void loadFromXml(ofXml& XML, const string& warperID = "corners");
-	
+
     void toggleActive();
-	void activate();
-	void deactivate();
-	bool isActive();
-    
-	void enableKeys(bool k = true);
+    void activate();
+    void deactivate();
+    bool isActive();
+
+    void enableKeys(bool k = true);
     void toggleKeys();
     bool getUseKeys();
     void setUseKeys(bool use = true);
-    
+
     glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
     glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);
-    
-    void setCorner(CornerID &cornerID, glm::vec2 &onScreenLocation);
-    glm::vec2 getCorner(CornerID &cornerID);
-    void selectCorner(CornerID &cornerID);
 
-    void setAllCorners(glm::vec2& top_left, glm::vec2& top_right, glm::vec2& bot_left, glm::vec2& bot_right);
+    void selectCorner(CornerID cornerID);
+    void setCorner(CornerID cornerID, glm::vec2 &onScreenLocation);
+    void setCorner(CornerID cornerID, float onScreenLocationX, float onScreenLocationY);
+    void moveCorner(CornerID cornerID, glm::vec2 &moveBy);
+    void moveCorner(CornerID cornerID, float byX, float byY);
+    glm::vec2 getCorner(CornerID cornerID);
+
+    void setAllCorners(glm::vec2 &top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right);
     void moveSurface(glm::vec2 &moveBy);
-    void moveSurface(float &byX, float &byY);
-        
+    void moveSurface(float byX, float byY);
+
     void setCornerSensibility(float sensibility);
     float getCornerSensibility();
 

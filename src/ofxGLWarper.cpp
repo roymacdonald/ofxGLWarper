@@ -209,15 +209,15 @@ void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 
-    float smallestDist = sqrt(ofGetWidth() * ofGetWidth() + ofGetHeight() * ofGetHeight());
+    float smallestDist = sqrtf(ofGetWidth() * ofGetWidth() + ofGetHeight() * ofGetHeight());
     //selectedCorner = -1;
-    float sensFactor = cornerSensibility * sqrt( width  * width  + height  * height );
+    float sensFactor = cornerSensibility * sqrtf( width  * width  + height  * height );
 
     cornerIsSelected = false;
     for(int i = 0; i < 4; i++){
         float distx = corners[i]->x - args.x;
         float disty = corners[i]->y - args.y;
-        float dist  = sqrt( distx * distx + disty * disty);
+        float dist  = sqrtf( distx * distx + disty * disty);
         ofLogVerbose() << "mouse to corner dist: " << dist << endl;
         if(dist < smallestDist && dist < sensFactor ){
             selectedCorner = i;
@@ -301,7 +301,7 @@ glm::vec4 ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
     return warpedPoint;
 }
 //--------------------------------------------------------------
-void ofxGLWarper::setAllCorners(glm::vec2& top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right){
+void ofxGLWarper::setAllCorners(glm::vec2 &top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right){
     //if you want to set all corners and avoid 3 useless processMatrices()
     corners[TOP_LEFT] = top_left;
     corners[TOP_RIGHT] = top_right;
@@ -317,21 +317,36 @@ void ofxGLWarper::moveSurface(glm::vec2 &moveBy){
     }
     processMatrices();
 }
-void ofxGLWarper::moveSurface(float &byX, float &byY){
+void ofxGLWarper::moveSurface(float byX, float byY){
     glm::vec2 moveBy(byX,byY);
     moveSurface(moveBy);
 }
 //--------------------------------------------------------------
-void ofxGLWarper::selectCorner(CornerID &cornerID){
+void ofxGLWarper::selectCorner(CornerID cornerID){
     selectedCorner = cornerID;
 }
 //--------------------------------------------------------------
-void ofxGLWarper::setCorner(CornerID &cornerID, glm::vec2 &onScreenLocation){
-    corners[cornerID] = onScreenLocation;// / glm::vec2(width, height);
+void ofxGLWarper::setCorner(CornerID cornerID, glm::vec2 &onScreenLocation){
+    corners[cornerID] = onScreenLocation;// glm::vec2(width, height);
     processMatrices();
 }
 //--------------------------------------------------------------
-glm::vec2 ofxGLWarper::getCorner(CornerID &cornerID){
+void ofxGLWarper::setCorner(CornerID cornerID, float onScreenLocationX, float onScreenLocationY){
+    corners[cornerID] = glm::vec2(onScreenLocationX, onScreenLocationY);// glm::vec2(width, height);
+    processMatrices();
+}
+//--------------------------------------------------------------
+void ofxGLWarper::moveCorner(CornerID cornerID, glm::vec2 &moveBy){
+        corners[cornerID] += moveBy;
+        processMatrices();
+}
+//--------------------------------------------------------------
+void ofxGLWarper::moveCorner(CornerID cornerID, float byX, float byY){
+    glm::vec2 moveBy(byX,byY);
+    moveCorner(cornerID, moveBy);
+}
+//--------------------------------------------------------------
+glm::vec2 ofxGLWarper::getCorner(CornerID cornerID){
     return corners[cornerID];// * glm::vec2(width, height);
 }
 //--------------------------------------------------------------
