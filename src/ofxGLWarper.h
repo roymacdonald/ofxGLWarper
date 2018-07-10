@@ -1,6 +1,5 @@
 #ifndef _GL_WARPER
 #define _GL_WARPER
-//#define CornerLocation CornerID //CornerLocation is now called CornerID
 #include "ofMain.h"
 // ofxGLWarper by Roy Macdonald
 // ... / ... 
@@ -16,7 +15,7 @@
 class ofxGLWarper{
 	
 public:
-    enum CornerID{
+    enum CornerLocation{
         TOP_LEFT,
         TOP_RIGHT,
         BOTTOM_RIGHT,
@@ -60,12 +59,12 @@ public:
     glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
     glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);
 
-    void selectCorner(CornerID cornerID);
-    void setCorner(CornerID cornerID, glm::vec2 &onScreenLocation);
-    void setCorner(CornerID cornerID, float onScreenLocationX, float onScreenLocationY);
-    void moveCorner(CornerID cornerID, glm::vec2 &moveBy);
-    void moveCorner(CornerID cornerID, float byX, float byY);
-    glm::vec2 getCorner(CornerID cornerID);
+    void selectCorner(CornerLocation cornerLocation);
+    void setCorner(CornerLocation cornerLocation, glm::vec2 &onScreenLocation);
+    void setCorner(CornerLocation cornerLocation, float onScreenLocationX, float onScreenLocationY);
+    void moveCorner(CornerLocation cornerLocation, glm::vec2 &moveBy);
+    void moveCorner(CornerLocation cornerLocation, float byX, float byY);
+    glm::vec2 getCorner(CornerLocation cornerLocation);
 
     void setAllCorners(glm::vec2 &top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right);
     void moveAllCorners(glm::vec2 &moveBy);
