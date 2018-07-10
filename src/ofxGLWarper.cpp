@@ -125,12 +125,8 @@ void ofxGLWarper::draw(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::begin(){
-    if (active) {
-        processMatrices();
-    }
     ofPushMatrix();
     ofMultMatrix(myMatrix);
-
     ofTranslate(-1*x,-1*y); //if not, you have to draw from warper's origin. As you wish.
 }
 //--------------------------------------------------------------
@@ -208,6 +204,7 @@ void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
     if(cornerIsSelected && selectedCorner >= 0){
         corners[selectedCorner] = glm::vec2(args.x, args.y);
     }
+    processMatrices();
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
@@ -236,15 +233,19 @@ void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
         switch (args.key) {
             case OF_KEY_DOWN:
                 corners[selectedCorner] += glm::vec2(0,1);
+                processMatrices();
                 break;
             case OF_KEY_UP:
                 corners[selectedCorner] += glm::vec2(0,-1);
+                processMatrices();
                 break;
             case OF_KEY_LEFT:
                 corners[selectedCorner] += glm::vec2(-1,0);
+                processMatrices();
                 break;
             case OF_KEY_RIGHT:
                 corners[selectedCorner] += glm::vec2(1,0);
+                processMatrices();
                 break;
             default:
 			break;
@@ -314,6 +315,7 @@ void ofxGLWarper::moveSurface(glm::vec2 &moveBy){
     for (int i = 0; i < 4; ++i) {
         corners[static_cast<CornerID>(i)] += moveBy;
     }
+    processMatrices();
 }
 void ofxGLWarper::moveSurface(float &byX, float &byY){
     glm::vec2 moveBy(byX,byY);
