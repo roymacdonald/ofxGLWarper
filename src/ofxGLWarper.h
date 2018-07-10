@@ -1,6 +1,5 @@
 #ifndef _GL_WARPER
 #define _GL_WARPER
-
 #include "ofMain.h"
 // ofxGLWarper by Roy Macdonald
 // ... / ... 
@@ -17,7 +16,7 @@ class ofxGLWarper{
 	
 public:
     enum CornerLocation{
-        TOP_LEFT = 0,
+        TOP_LEFT,
         TOP_RIGHT,
         BOTTOM_RIGHT,
         BOTTOM_LEFT
@@ -33,7 +32,7 @@ public:
 		
 	void mouseDragged(ofMouseEventArgs &args);
 	void mousePressed(ofMouseEventArgs &args);
-	void mouseReleased(ofMouseEventArgs &args){}
+    void mouseReleased(ofMouseEventArgs &args){}
     void mouseMoved(ofMouseEventArgs &args){}
     void mouseScrolled(ofMouseEventArgs &args){}
     void mouseEntered(ofMouseEventArgs &args){}
@@ -41,46 +40,50 @@ public:
     void keyPressed(ofKeyEventArgs &args);
     void keyReleased(ofKeyEventArgs &args){}
     
-	void processMatrices();
-	
+    void processMatrices();
+
     void save(const string& saveFile = "warpConfig.xml");
     void load(const string& loadFile = "warpConfig.xml");
-	
+
     void saveToXml(ofXml& XML, const string& warperID = "corners");
     void loadFromXml(ofXml& XML, const string& warperID = "corners");
-	
+
     void toggleActive();
-	void activate();
-	void deactivate();
-	bool isActive();
-    
-	void enableKeys(bool k = true);
+    void activate();
+    void deactivate();
+    bool isActive();
+
+    void enableKeys(bool k = true);
     void toggleKeys();
-    bool getUseKeys();
-    void setUseKeys(bool use = true);
-    
-	ofVec4f	fromScreenToWarpCoord(float x,float y,float z);
-	ofVec4f	fromWarpToScreenCoord(float x,float y,float z);
-    
-    void setCorner(CornerLocation cornerLocation, ofPoint screenLocation);
-    void setAllCorners(ofPoint& top_left, ofPoint& top_right, ofPoint& bot_left, ofPoint& bot_right);
-    ofPoint getCorner(CornerLocation cornerLocation);
-        
+
+    glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
+    glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);
+
+    void selectCorner(CornerLocation cornerLocation);
+    void setCorner(CornerLocation cornerLocation, glm::vec2 &onScreenLocation);
+    void setCorner(CornerLocation cornerLocation, float onScreenLocationX, float onScreenLocationY);
+    void moveCorner(CornerLocation cornerLocation, glm::vec2 &moveBy);
+    void moveCorner(CornerLocation cornerLocation, float byX, float byY);
+    glm::vec2 getCorner(CornerLocation cornerLocation);
+
+    void setAllCorners(glm::vec2 &top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right);
+    void moveAllCorners(glm::vec2 &moveBy);
+    void moveAllCorners(float byX, float byY);
+
     void setCornerSensibility(float sensibility);
     float getCornerSensibility();
-    
-    ofEvent<CornerLocation> changeEvent;
+
+    ofParameter<glm::vec2> corners[4];
 
 private:
 	int x, y;
 	int  width; //width of the quad to work with
 	int	 height; // height of the quad to work with
 	bool active;
-	ofPoint corners[4];
-	int whichCorner;
-    ofMatrix4x4 myMatrix;
+    int selectedCorner;
+    glm::mat4 myMatrix;
     float cornerSensibility;
-    bool cornerSelected;
+    bool cornerIsSelected;
     bool bUseKeys;
 };
 

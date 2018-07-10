@@ -66,7 +66,7 @@ public:
 	
 	
 	template <class T>
-	static void findHomography(T src, T dst, float homography[16]){
+    static void findHomography(T &src, T &dst, float homography[16]){
 		
 		// create the equation system to be solved
 		// src and dst must implement [] operator for point access
@@ -115,30 +115,30 @@ public:
 	}
 	
 	template <class T>
-	static ofMatrix4x4 findHomography(T src, T dst){
+    static glm::mat4 findHomography(T &src, T &dst){
 		float homography[16];
 		findHomography(src, dst, homography);
-		return ofMatrix4x4(homography);
+        return glm::make_mat4(homography);
 	}
 	
-	static ofPoint toScreenCoordinates(ofPoint point, ofMatrix4x4 homography){
-		ofVec4f original;
-		ofVec4f screen;
+    static glm::vec3 toScreenCoordinates(glm::vec3 point, glm::mat4 homography){
+        glm::vec4 original;
+        glm::vec4 screen;
 		
 		original.x = point.x;
 		original.y = point.y;
 		original.z = point.z;
 		original.w = 1.0;
 		
-		ofMatrix4x4 transposed = ofMatrix4x4::getTransposedOf(homography);
+        glm::mat4 invertedMat = glm::inverse(homography);
 		
-		screen = transposed * original;
+        screen = invertedMat * original;
 		
 		screen.x = screen.x / screen.w;
 		screen.y = screen.y / screen.w;
 		screen.z = screen.z / screen.w;
 		
-		return ofPoint(screen.x,screen.y, screen.z);
+        return glm::vec3(screen.x,screen.y, screen.z);
 	}
 
 };
