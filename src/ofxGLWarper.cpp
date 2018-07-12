@@ -59,10 +59,8 @@ void ofxGLWarper::deactivate(){
 void ofxGLWarper::toggleActive(){
     if(!active){
         activate();
-        ofLogVerbose() << "activate"<<endl;
     }else{
         deactivate();
-        ofLogVerbose() << "desactivate"<<endl;
     }
 }
 //--------------------------------------------------------------
