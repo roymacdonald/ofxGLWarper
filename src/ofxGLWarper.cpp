@@ -1,6 +1,11 @@
 #include "ofxGLWarper.h"
 #include "ofxHomography.h"
 
+ofxGLWarper::~ofxGLWarper(){
+    ofUnregisterMouseEvents(this);
+    ofUnregisterKeyEvents(this);
+}
+
 //--------------------------------------------------------------
 void ofxGLWarper::setup(){
     setup(ofGetWidth(), ofGetHeight());
@@ -12,8 +17,6 @@ void ofxGLWarper::setup(int _resX, int _resY){
 //--------------------------------------------------------------
 void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     ofLogVerbose() << "ofxGLWarper setup: " <<_x << " " <<_y << " " <<_w << " " <<_h << endl;
-    ofUnregisterMouseEvents(this);
-    ofUnregisterKeyEvents(this);
 
     corners[TOP_LEFT] =     glm::vec2( _x      , _y        );
     corners[TOP_RIGHT] =    glm::vec2( _x + _w , _y        );

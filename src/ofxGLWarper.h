@@ -22,7 +22,7 @@ public:
         BOTTOM_LEFT
     };
     
-    
+    ~ofxGLWarper();
 	void setup();		
 	void setup(int _resX, int _resY); //changed to have resolution as parameter for the quad
 	void setup(int _x, int _y, int _w, int _h);
