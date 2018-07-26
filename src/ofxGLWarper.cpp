@@ -43,28 +43,21 @@ bool ofxGLWarper::isActive(){
     return active;
 }
 //--------------------------------------------------------------
-void ofxGLWarper::activate(){
-    if (!active){
-        if (bUseMouse){
-            ofRegisterMouseEvents(this);
-        }
-        if (bUseKeys) {
-            ofRegisterKeyEvents(this);
-        }
+void ofxGLWarper::activate(bool bActivate){
+    if (bActivate && !active){
+        if (bUseMouse){ofRegisterMouseEvents(this);}
+        if (bUseKeys) {ofRegisterKeyEvents(this);}
         active=true;
+
+    }else if (!bActivate && active){
+        if (bUseMouse){ofUnregisterMouseEvents(this);}
+        if (bUseKeys) {ofUnregisterKeyEvents(this);}
+        active=false;
     }
 }
 //--------------------------------------------------------------
 void ofxGLWarper::deactivate(){
-    if (active){
-        if (bUseMouse){
-            ofUnregisterMouseEvents(this);
-        }
-        if (bUseKeys) {
-            ofUnregisterKeyEvents(this);
-        }
-        active=false;
-    }
+    activate(false);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::toggleActive(){
@@ -102,7 +95,7 @@ void ofxGLWarper::enableMouse(bool m){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::toggleMouse(){
-    enableKeys(!bUseMouse);
+    enableMouse(!bUseMouse);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::processMatrices(){

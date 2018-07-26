@@ -49,7 +49,7 @@ public:
     void loadFromXml(ofXml& XML, const string& warperID = "corners");
 
     void toggleActive();
-    void activate();
+    void activate(bool bActivate = true);
     void deactivate();
     bool isActive();
 
