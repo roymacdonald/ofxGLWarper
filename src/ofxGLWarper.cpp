@@ -201,7 +201,7 @@ void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
 		i++;
     }
 
-    (c.getChild("active").getBoolValue()) ? this->activate() : this->deactivate() ;
+    this->activate(c.getChild("active").getBoolValue());
 
     processMatrices();
     //ofLog(OF_LOG_WARNING, "ofxGLWarper : xml object loaded OK!."); // Since the method works, this can be quiet...
