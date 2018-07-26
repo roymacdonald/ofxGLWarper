@@ -1,6 +1,10 @@
 #include "ofxGLWarper.h"
 #include "ofxHomography.h"
 
+ofxGLWarper::~ofxGLWarper(){
+    deactivate();
+}
+
 //--------------------------------------------------------------
 void ofxGLWarper::setup(){
     setup(ofGetWidth(), ofGetHeight());
@@ -12,15 +16,13 @@ void ofxGLWarper::setup(int _resX, int _resY){
 //--------------------------------------------------------------
 void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     ofLogVerbose() << "ofxGLWarper setup: " <<_x << " " <<_y << " " <<_w << " " <<_h << endl;
-    ofUnregisterMouseEvents(this);
-    ofUnregisterKeyEvents(this);
 
     corners[TOP_LEFT] =     glm::vec2( _x      , _y        );
     corners[TOP_RIGHT] =    glm::vec2( _x + _w , _y        );
     corners[BOTTOM_RIGHT] = glm::vec2( _x + _w , _y + _h   );
     corners[BOTTOM_LEFT] =  glm::vec2( _x      , _y + _h   );
 
-    active=false;
+    deactivate(); // function checks if was already active
 
     myMatrix = glm::mat4(); // identity
 
@@ -32,6 +34,7 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     cornerIsSelected = false;
     cornerSensibility = 0.5;
     bUseKeys = true;
+    bUseMouse = true;
 
     processMatrices();
 }
@@ -40,43 +43,55 @@ bool ofxGLWarper::isActive(){
     return active;
 }
 //--------------------------------------------------------------
-void ofxGLWarper::activate(){
-    ofRegisterMouseEvents(this);
-    active=true;
-    if (bUseKeys) {
-        ofRegisterKeyEvents(this);
+void ofxGLWarper::activate(bool bActivate){
+    if (bActivate && !active){
+        if (bUseMouse){ofRegisterMouseEvents(this);}
+        if (bUseKeys) {ofRegisterKeyEvents(this);}
+        active=true;
+
+    }else if (!bActivate && active){
+        if (bUseMouse){ofUnregisterMouseEvents(this);}
+        if (bUseKeys) {ofUnregisterKeyEvents(this);}
+        active=false;
     }
 }
 //--------------------------------------------------------------
 void ofxGLWarper::deactivate(){
-    ofUnregisterMouseEvents(this);
-    active=false;
-    if (bUseKeys) {
-        ofUnregisterKeyEvents(this);
-    }
+    activate(false);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::toggleActive(){
-    if(!active){
-        activate();
-        ofLogVerbose() << "activate"<<endl;
-    }else{
-        deactivate();
-        ofLogVerbose() << "desactivate"<<endl;
-    }
+    activate(!active);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::enableKeys(bool k){
-    if (k && active) {
-        ofRegisterKeyEvents(this);
-    }else{
-        ofUnregisterKeyEvents(this);
+    if (bUseKeys != k){
+        if (k && active) {
+            ofRegisterKeyEvents(this);
+        }else if (active){
+            ofUnregisterKeyEvents(this);
+        }
+        bUseKeys = k;
     }
-    bUseKeys = k;
 }
 //--------------------------------------------------------------
 void ofxGLWarper::toggleKeys(){
     enableKeys(!bUseKeys);
+}
+//--------------------------------------------------------------
+void ofxGLWarper::enableMouse(bool m){
+    if (bUseMouse != m){
+        if (m && active) {
+            ofRegisterMouseEvents(this);
+        }else if (active){
+            ofUnregisterMouseEvents(this);
+        }
+        bUseMouse = m;
+    }
+}
+//--------------------------------------------------------------
+void ofxGLWarper::toggleMouse(){
+    enableMouse(!bUseMouse);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::processMatrices(){
@@ -186,7 +201,7 @@ void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
 		i++;
     }
 
-    (c.getChild("active").getBoolValue()) ? this->activate() : this->deactivate() ;
+    this->activate(c.getChild("active").getBoolValue());
 
     processMatrices();
     //ofLog(OF_LOG_WARNING, "ofxGLWarper : xml object loaded OK!."); // Since the method works, this can be quiet...

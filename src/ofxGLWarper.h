@@ -22,7 +22,7 @@ public:
         BOTTOM_LEFT
     };
     
-    
+    ~ofxGLWarper();
 	void setup();		
 	void setup(int _resX, int _resY); //changed to have resolution as parameter for the quad
 	void setup(int _x, int _y, int _w, int _h);
@@ -49,12 +49,14 @@ public:
     void loadFromXml(ofXml& XML, const string& warperID = "corners");
 
     void toggleActive();
-    void activate();
+    void activate(bool bActivate = true);
     void deactivate();
     bool isActive();
 
     void enableKeys(bool k = true);
     void toggleKeys();
+    void enableMouse(bool m = true);
+    void toggleMouse();
 
     glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
     glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);
@@ -79,12 +81,13 @@ private:
 	int x, y;
 	int  width; //width of the quad to work with
 	int	 height; // height of the quad to work with
-	bool active;
+    bool active = false;
     int selectedCorner;
     glm::mat4 myMatrix;
     float cornerSensibility;
     bool cornerIsSelected;
-    bool bUseKeys;
+    bool bUseKeys = false; // false before a setup
+    bool bUseMouse = false; // false before a setup
 };
 
 #endif	
