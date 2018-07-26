@@ -2,8 +2,7 @@
 #include "ofxHomography.h"
 
 ofxGLWarper::~ofxGLWarper(){
-    ofUnregisterMouseEvents(this);
-    ofUnregisterKeyEvents(this);
+    deactivate();
 }
 
 //--------------------------------------------------------------
@@ -23,7 +22,7 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     corners[BOTTOM_RIGHT] = glm::vec2( _x + _w , _y + _h   );
     corners[BOTTOM_LEFT] =  glm::vec2( _x      , _y + _h   );
 
-    active=false;
+    deactivate(); // function checks if was already active
 
     myMatrix = glm::mat4(); // identity
 
@@ -35,6 +34,7 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     cornerIsSelected = false;
     cornerSensibility = 0.5;
     bUseKeys = true;
+    bUseMouse = true;
 
     processMatrices();
 }
@@ -44,18 +44,26 @@ bool ofxGLWarper::isActive(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::activate(){
-    ofRegisterMouseEvents(this);
-    active=true;
-    if (bUseKeys) {
-        ofRegisterKeyEvents(this);
+    if (!active){
+        if (bUseMouse){
+            ofRegisterMouseEvents(this);
+        }
+        if (bUseKeys) {
+            ofRegisterKeyEvents(this);
+        }
+        active=true;
     }
 }
 //--------------------------------------------------------------
 void ofxGLWarper::deactivate(){
-    ofUnregisterMouseEvents(this);
-    active=false;
-    if (bUseKeys) {
-        ofUnregisterKeyEvents(this);
+    if (active){
+        if (bUseMouse){
+            ofUnregisterMouseEvents(this);
+        }
+        if (bUseKeys) {
+            ofUnregisterKeyEvents(this);
+        }
+        active=false;
     }
 }
 //--------------------------------------------------------------
@@ -68,16 +76,33 @@ void ofxGLWarper::toggleActive(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::enableKeys(bool k){
-    if (k && active) {
-        ofRegisterKeyEvents(this);
-    }else{
-        ofUnregisterKeyEvents(this);
+    if (bUseKeys != k){
+        if (k && active) {
+            ofRegisterKeyEvents(this);
+        }else if (active){
+            ofUnregisterKeyEvents(this);
+        }
+        bUseKeys = k;
     }
-    bUseKeys = k;
 }
 //--------------------------------------------------------------
 void ofxGLWarper::toggleKeys(){
     enableKeys(!bUseKeys);
+}
+//--------------------------------------------------------------
+void ofxGLWarper::enableMouse(bool m){
+    if (bUseMouse != m){
+        if (m && active) {
+            ofRegisterMouseEvents(this);
+        }else if (active){
+            ofUnregisterMouseEvents(this);
+        }
+        bUseMouse = m;
+    }
+}
+//--------------------------------------------------------------
+void ofxGLWarper::toggleMouse(){
+    enableKeys(!bUseMouse);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::processMatrices(){
