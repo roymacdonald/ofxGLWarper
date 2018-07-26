@@ -61,11 +61,7 @@ void ofxGLWarper::deactivate(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::toggleActive(){
-    if(!active){
-        activate();
-    }else{
-        deactivate();
-    }
+    activate(!active);
 }
 //--------------------------------------------------------------
 void ofxGLWarper::enableKeys(bool k){
