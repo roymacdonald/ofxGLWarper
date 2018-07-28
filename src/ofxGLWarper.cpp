@@ -267,8 +267,8 @@ glm::vec4 ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
     glm::vec4 warpedPoint;
 
     // this is the point on the image which i want to know the coordinates inside the warped system ...
-    mousePoint.x = x;
-    mousePoint.y = y;
+    mousePoint.x = x - (this->x);
+    mousePoint.y = y - (this->y);
     mousePoint.z = z;
     mousePoint.w = 1.0;
 
@@ -302,8 +302,8 @@ glm::vec4 ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
     // multiply both to get the point transformed by the matrix
     warpedPoint = invertedMyMatrix * mousePoint ;
 
-    warpedPoint.x = warpedPoint.x / warpedPoint.w;
-    warpedPoint.y = warpedPoint.y / warpedPoint.w;
+    warpedPoint.x = warpedPoint.x / warpedPoint.w + (this->x);
+    warpedPoint.y = warpedPoint.y / warpedPoint.w + (this->y);
     warpedPoint.z = warpedPoint.z / warpedPoint.w;
 
     return warpedPoint;
