@@ -38,6 +38,23 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 
     processMatrices();
 }
+
+//--------------------------------------------------------------
+void ofxGLWarper::reSetupWarped(int _x, int _y, int _w, int _h){
+
+    corners[TOP_LEFT] =     glm::vec2(fromScreenToWarpCoord( _x      , _y        ));
+    corners[TOP_RIGHT] =    glm::vec2(fromScreenToWarpCoord( _x + _w , _y        ));
+    corners[BOTTOM_RIGHT] = glm::vec2(fromScreenToWarpCoord( _x + _w , _y + _h   ));
+    corners[BOTTOM_LEFT] =  glm::vec2(fromScreenToWarpCoord( _x      , _y + _h   ));
+
+    x=_x;
+    y=_y;
+    width=_w;
+    height=_h;
+
+    processMatrices();
+}
+
 //--------------------------------------------------------------
 bool ofxGLWarper::isActive(){
     return active;
