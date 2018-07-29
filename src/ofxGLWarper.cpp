@@ -139,14 +139,7 @@ void ofxGLWarper::processMatrices(){
 
 }
 //--------------------------------------------------------------
-void ofxGLWarper::draw(){
-    if (active) {
-        ofPushStyle();
-        ofSetColor(255, 255, 255);
-        ofNoFill();
-        ofDrawRectangle(x, y, width, height);
-        ofPopStyle();
-    }
+void ofxGLWarper::draw(){ // Deprecated (included in end()). Please check the drawSettings structure.
 }
 //--------------------------------------------------------------
 void ofxGLWarper::begin(){
@@ -156,16 +149,22 @@ void ofxGLWarper::begin(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::end(){
-    ofPopMatrix();
-    if (active) {// this draws colored squares over the corners as a visual aid.
+    if (drawSettings.bDrawRectangle && active) {
         ofPushStyle();
+        ofSetColor(drawSettings.RectangleColor);
+        ofNoFill();
+        ofDrawRectangle(x, y, width, height);
+    }
+    ofPopMatrix();
+    if (drawSettings.bDrawCorners && active) {// this draws colored squares over the corners as a visual aid.
         ofSetRectMode(OF_RECTMODE_CENTER);
         for (int i = 0; i < 4; i++) {
             if(i==selectedCorner){
-                ofSetColor(255, 0, 0);
+                ofSetColor(drawSettings.selectedCornerColor);
             }else{
-                ofSetColor(255, 255, 0);
+                ofSetColor(drawSettings.cornersColor);
             }
+            ofFill();
             ofDrawRectangle(corners[i], 10, 10);
         }
         ofPopStyle();

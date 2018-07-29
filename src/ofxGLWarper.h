@@ -29,7 +29,7 @@ public:
 
     void reSetupWarped(int _x, int _y, int _w, int _h); // allows you to redefine base rectangle without losing the current warping.
 
-	void draw();	// nowthis method draw the bounding box for the warped elements. intended to be a visual aid.
+    void draw();	// This is deprecated (included in end()). Please check the drawSettings structure below.
 	void begin();	//changed name from draw to begin
 	void end();		//added to make it easier to use, similar to ofFbo (begin,end)
 		
@@ -79,6 +79,15 @@ public:
     float getCornerSensibility();
 
     ofParameter<glm::vec2> corners[4];
+
+    struct drawSettings{
+        bool bDrawCorners = true;
+        bool bDrawRectangle = true;
+        ofColor selectedCornerColor = ofColor(255, 0, 0);
+        ofColor cornersColor = ofColor(255, 255, 0);
+        ofColor RectangleColor = ofColor(255, 255, 255);
+    };
+    drawSettings drawSettings;
 
 private:
 	int x, y;

@@ -31,6 +31,8 @@ void ofApp::setup(){
     warper.corners[1].addListener(this, &ofApp::onCornerChange);
     warper.corners[2].addListener(this, &ofApp::onCornerChange);
     warper.corners[3].addListener(this, &ofApp::onCornerChange);
+	
+	warper.drawSettings.bDrawRectangle = false; // default: true. Check drawSettings options for customization.
 
 }
 
