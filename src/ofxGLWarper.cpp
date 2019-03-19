@@ -213,7 +213,9 @@ void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
 	auto cor = c.getChildren("corner");
 	int i = 0;
 	for(auto& ch: cor){
-        corners[i] = glm::vec2(ch.getChild("x").getFloatValue(), ch.getChild("y").getFloatValue());
+        if(i<4){
+            corners[i] = glm::vec2(ch.getChild("x").getFloatValue(), ch.getChild("y").getFloatValue());
+        } 
 		i++;
     }
 
