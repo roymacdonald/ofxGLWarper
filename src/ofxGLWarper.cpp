@@ -149,14 +149,14 @@ void ofxGLWarper::begin(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::end(){
-    if (drawSettings.bDrawRectangle && active) {
+    if ((drawSettings.bDrawRectangle && active) || (drawSettings.bDrawRectangle && drawSettings.bForceDrawing)) {
         ofPushStyle();
         ofSetColor(drawSettings.rectangleColor);
         ofNoFill();
         ofDrawRectangle(x, y, width, height);
     }
     ofPopMatrix();
-    if (drawSettings.bDrawCorners && active) {// this draws colored squares over the corners as a visual aid.
+    if ((drawSettings.bDrawCorners && active) || (drawSettings.bDrawCorners && drawSettings.bForceDrawing)) {// this draws colored squares over the corners as a visual aid.
         ofSetRectMode(OF_RECTMODE_CENTER);
         for (int i = 0; i < 4; i++) {
             if(i==selectedCorner){

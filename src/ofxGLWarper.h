@@ -83,6 +83,7 @@ public:
     struct drawSettings{
         bool bDrawCorners = true;
         bool bDrawRectangle = true;
+        bool bForceDrawing = false; // Draws warper even if not active.
         ofColor selectedCornerColor = ofColor(255, 0, 0);
         ofColor cornersColor = ofColor(255, 255, 0);
         ofColor rectangleColor = ofColor(255, 255, 255);
