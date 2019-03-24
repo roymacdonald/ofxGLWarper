@@ -85,7 +85,7 @@ public:
         bool bDrawRectangle = true;
         ofColor selectedCornerColor = ofColor(255, 0, 0);
         ofColor cornersColor = ofColor(255, 255, 0);
-        ofColor RectangleColor = ofColor(255, 255, 255);
+        ofColor rectangleColor = ofColor(255, 255, 255);
     };
     drawSettings drawSettings;
 
@@ -102,5 +102,5 @@ private:
     bool bUseMouse = false; // false before a setup
 };
 
-#endif	
+#endif
 

@@ -151,7 +151,7 @@ void ofxGLWarper::begin(){
 void ofxGLWarper::end(){
     if (drawSettings.bDrawRectangle && active) {
         ofPushStyle();
-        ofSetColor(drawSettings.RectangleColor);
+        ofSetColor(drawSettings.rectangleColor);
         ofNoFill();
         ofDrawRectangle(x, y, width, height);
     }
