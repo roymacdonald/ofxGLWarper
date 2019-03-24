@@ -38,6 +38,23 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
 
     processMatrices();
 }
+
+//--------------------------------------------------------------
+void ofxGLWarper::reSetupWarped(int _x, int _y, int _w, int _h){
+
+    corners[TOP_LEFT] =     glm::vec2(fromScreenToWarpCoord( _x      , _y        ));
+    corners[TOP_RIGHT] =    glm::vec2(fromScreenToWarpCoord( _x + _w , _y        ));
+    corners[BOTTOM_RIGHT] = glm::vec2(fromScreenToWarpCoord( _x + _w , _y + _h   ));
+    corners[BOTTOM_LEFT] =  glm::vec2(fromScreenToWarpCoord( _x      , _y + _h   ));
+
+    x=_x;
+    y=_y;
+    width=_w;
+    height=_h;
+
+    processMatrices();
+}
+
 //--------------------------------------------------------------
 bool ofxGLWarper::isActive(){
     return active;
@@ -122,14 +139,7 @@ void ofxGLWarper::processMatrices(){
 
 }
 //--------------------------------------------------------------
-void ofxGLWarper::draw(){
-    if (active) {
-        ofPushStyle();
-        ofSetColor(255, 255, 255);
-        ofNoFill();
-        ofDrawRectangle(x, y, width, height);
-        ofPopStyle();
-    }
+void ofxGLWarper::draw(){ // Deprecated (included in end()). Please check the drawSettings structure.
 }
 //--------------------------------------------------------------
 void ofxGLWarper::begin(){
@@ -139,16 +149,22 @@ void ofxGLWarper::begin(){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::end(){
-    ofPopMatrix();
-    if (active) {// this draws colored squares over the corners as a visual aid.
+    if ((drawSettings.bDrawRectangle && active) || (drawSettings.bDrawRectangle && drawSettings.bForceDrawing)) {
         ofPushStyle();
+        ofSetColor(drawSettings.rectangleColor);
+        ofNoFill();
+        ofDrawRectangle(x, y, width, height);
+    }
+    ofPopMatrix();
+    if ((drawSettings.bDrawCorners && active) || (drawSettings.bDrawCorners && drawSettings.bForceDrawing)) {// this draws colored squares over the corners as a visual aid.
         ofSetRectMode(OF_RECTMODE_CENTER);
         for (int i = 0; i < 4; i++) {
             if(i==selectedCorner){
-                ofSetColor(255, 0, 0);
+                ofSetColor(drawSettings.selectedCornerColor);
             }else{
-                ofSetColor(255, 255, 0);
+                ofSetColor(drawSettings.cornersColor);
             }
+            ofFill();
             ofDrawRectangle(corners[i], 10, 10);
         }
         ofPopStyle();
@@ -269,8 +285,8 @@ glm::vec4 ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
     glm::vec4 warpedPoint;
 
     // this is the point on the image which i want to know the coordinates inside the warped system ...
-    mousePoint.x = x;
-    mousePoint.y = y;
+    mousePoint.x = x - (this->x);
+    mousePoint.y = y - (this->y);
     mousePoint.z = z;
     mousePoint.w = 1.0;
 
@@ -304,8 +320,8 @@ glm::vec4 ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
     // multiply both to get the point transformed by the matrix
     warpedPoint = invertedMyMatrix * mousePoint ;
 
-    warpedPoint.x = warpedPoint.x / warpedPoint.w;
-    warpedPoint.y = warpedPoint.y / warpedPoint.w;
+    warpedPoint.x = warpedPoint.x / warpedPoint.w + (this->x);
+    warpedPoint.y = warpedPoint.y / warpedPoint.w + (this->y);
     warpedPoint.z = warpedPoint.z / warpedPoint.w;
 
     return warpedPoint;

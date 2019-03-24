@@ -6,7 +6,7 @@ void ofApp::setup(){
     for (unsigned int i =0; i<NUM_WARPERS; i++){
         warpers.push_back(ofxGLWarper());
         warpers.back().setup((i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight(),img.getWidth(), img.getHeight());
-       //warpers.back().activate();
+		warpers.back().drawSettings.bDrawRectangle = true; // default: true. Check drawSettings options for customization.
     }
     //ofSetVerticalSync(true); // is enabled by default since OF 0.8
 	
@@ -23,8 +23,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     for (unsigned int i =0; i<NUM_WARPERS; i++){
-        warpers[i].begin();	
-        warpers[i].draw(); 
+        warpers[i].begin();
         img.draw((i%2)*img.getWidth(),floor(float(i)/2)*img.getHeight());
         warpers[i].end();
 	}
