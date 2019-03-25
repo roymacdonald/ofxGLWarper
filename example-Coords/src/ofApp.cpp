@@ -5,7 +5,7 @@ void ofApp::setup(){
 
     img.load("image.jpg");
 
-    warper.setup(70, 120, img.getWidth(), img.getHeight()); //initializates ofxGLWarper
+    warper.setup(100, 120, img.getWidth(), img.getHeight()); //initializates ofxGLWarper
     warper.setCornerSensibility(0.1f);
     warper.activate();// this allows ofxGLWarper to automatically listen to the mouse and keyboard input and updates automatically it's matrixes.
 
@@ -24,7 +24,7 @@ void ofApp::draw(){
     ofBackgroundGradient(ofColor(0,0,0), ofColor(20,200,0), OF_GRADIENT_BAR);
     warper.begin();
 	
-    img.draw(70, 120);
+    img.draw(100, 120);
 
     warper.end();
 
@@ -48,14 +48,19 @@ void ofApp::draw(){
     ofPopStyle();
 
     std::string math_text = "A_pos = (" + ofToString(A_pos.x, 0) + "," + ofToString(A_pos.y, 0) + ") = warper.fromScreenToWarpCoord(Rclick_pos)";
-    ofDrawBitmapStringHighlight(math_text,0, 20);
+    ofDrawBitmapStringHighlight(math_text,10, 20);
     math_text = "B_pos = (" + ofToString(B_pos.x, 0) + "," + ofToString(B_pos.y, 0) + ") = warper.fromWarpToScreenCoord( A_pos(" + ofToString(A_pos.x, 0) + "," + ofToString(A_pos.y, 0) + ") )";
-    ofDrawBitmapStringHighlight(math_text,0, 45);
+    ofDrawBitmapStringHighlight(math_text,10, 45);
 	
-	ofDrawBitmapString("Just drag the corners of the image for it to warp.", 20, 100);
+    ofDrawBitmapString("Hello, this example app is demonstrating the coordinates conversion functions.", 10, 65);
+    ofDrawBitmapString("Drag the warper's corners to transform the image in space, and use your", 10, 80);
+    ofDrawBitmapString("RIGHT-CLICK to select a new point, have fun and I wish you to understand those ;)", 10, 95);
 
-    ofDrawBitmapStringHighlight(ofToString(mouseXpoint) + "," + ofToString(mouseYpoint),mouseXpoint, mouseYpoint);
-	
+    if (mouseXpoint > 65){
+        ofDrawBitmapStringHighlight(ofToString(mouseXpoint) + "," + ofToString(mouseYpoint),mouseXpoint-60, mouseYpoint+10);
+    } else {
+        ofDrawBitmapStringHighlight(ofToString(mouseXpoint) + "," + ofToString(mouseYpoint),mouseXpoint, mouseYpoint);
+    }
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
