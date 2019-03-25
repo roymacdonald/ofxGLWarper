@@ -62,7 +62,9 @@ public:
     void toggleMouse();
 
     glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
+    glm::vec4 fromScreenToWarpCoord(glm::vec4 &position);
     glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);
+    glm::vec4 fromWarpToScreenCoord(glm::vec4 &position);
 
     void selectCorner(CornerLocation cornerLocation);
     void setCorner(CornerLocation cornerLocation, glm::vec2 &onScreenLocation);
