@@ -303,6 +303,9 @@ glm::vec4 ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
 
     return warpedPoint;
 }
+glm::vec4 ofxGLWarper::fromScreenToWarpCoord(glm::vec4 &position){
+    return fromScreenToWarpCoord(position.x, position.y, position.z);
+}
  //--------------------------------------------------------------
 glm::vec4 ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
     glm::vec4 mousePoint;
@@ -326,6 +329,10 @@ glm::vec4 ofxGLWarper::fromWarpToScreenCoord(float x, float y, float z){
 
     return warpedPoint;
 }
+glm::vec4 ofxGLWarper::fromWarpToScreenCoord(glm::vec4 &position){
+    return fromWarpToScreenCoord(position.x, position.y, position.z);
+}
+
 //--------------------------------------------------------------
 void ofxGLWarper::setAllCorners(glm::vec2 &top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right){
     //if you want to set all corners and avoid 3 useless processMatrices()
