@@ -383,6 +383,10 @@ glm::vec2 ofxGLWarper::getCorner(CornerLocation cornerLocation){
     return corners[cornerLocation];// * glm::vec2(width, height);
 }
 //--------------------------------------------------------------
+ofRectangle ofxGLWarper::getBaseRectangle(){
+    return ofRectangle(x,y,width,height); // gets you the rect used to setup
+}
+//--------------------------------------------------------------
 void ofxGLWarper::setCornerSensibility(float sensibility){
     cornerSensibility = sensibility;
 }
