@@ -30,8 +30,7 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     y=_y;
     width=_w;
     height=_h;
-    selectedCorner = -1;
-    cornerIsSelected = false;
+    selectedCorner = -1; // == -1 when no corner is selected.
     cornerSensibility = 0.5;
     bUseKeys = true;
     bUseMouse = true;
@@ -227,19 +226,19 @@ void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
-    if(cornerIsSelected && selectedCorner >= 0){
+    if(selectedCorner != -1){
         corners[selectedCorner] = glm::vec2(args.x, args.y);
+        processMatrices();
     }
-    processMatrices();
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 
     float smallestDist = sqrtf(ofGetWidth() * ofGetWidth() + ofGetHeight() * ofGetHeight());
-    //selectedCorner = -1;
     float sensFactor = cornerSensibility * sqrtf( width  * width  + height  * height );
 
-    cornerIsSelected = false;
+    selectedCorner = -1;
+
     for(int i = 0; i < 4; i++){
         float distx = corners[i]->x - args.x;
         float disty = corners[i]->y - args.y;
@@ -248,14 +247,13 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
         if(dist < smallestDist && dist < sensFactor ){
             selectedCorner = i;
             smallestDist = dist;
-            cornerIsSelected=true;
         }
     }
 }
 
 //--------------------------------------------------------------
 void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
-    if (cornerIsSelected && selectedCorner >= 0) {
+    if (selectedCorner != -1) {
         switch (args.key) {
             case OF_KEY_DOWN:
                 corners[selectedCorner] += glm::vec2(0,1);
@@ -381,6 +379,25 @@ void ofxGLWarper::moveCorner(CornerLocation cornerLocation, float byX, float byY
 //--------------------------------------------------------------
 glm::vec2 ofxGLWarper::getCorner(CornerLocation cornerLocation){
     return corners[cornerLocation];// * glm::vec2(width, height);
+}
+//--------------------------------------------------------------
+ofRectangle ofxGLWarper::getBaseRectangle(){
+    return ofRectangle(x,y,width,height); // gets you the rect used to setup
+}
+//--------------------------------------------------------------
+bool ofxGLWarper::getCornerIsSelected(){
+    if (selectedCorner != -1){
+        return true;
+    }else{
+        return false;
+    }
+}
+//--------------------------------------------------------------
+    // When no corner is selected ( getCornerIsSelected() == false ) :
+    // getSelectedCornerLocation() < static_cast<ofxGLWarper::CornerLocation>(0)
+ofxGLWarper::CornerLocation ofxGLWarper::getSelectedCornerLocation(){
+    ofxGLWarper::CornerLocation corner_loc = static_cast<ofxGLWarper::CornerLocation>(selectedCorner);
+    return corner_loc;
 }
 //--------------------------------------------------------------
 void ofxGLWarper::setCornerSensibility(float sensibility){
