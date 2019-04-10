@@ -30,8 +30,7 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     y=_y;
     width=_w;
     height=_h;
-    selectedCorner = -1;
-    cornerIsSelected = false;
+    selectedCorner = -1; // == -1 when no corner is selected.
     cornerSensibility = 0.5;
     bUseKeys = true;
     bUseMouse = true;
@@ -159,7 +158,7 @@ void ofxGLWarper::end(){
     if ((drawSettings.bDrawCorners && active) || (drawSettings.bDrawCorners && drawSettings.bForceDrawing)) {// this draws colored squares over the corners as a visual aid.
         ofSetRectMode(OF_RECTMODE_CENTER);
         for (int i = 0; i < 4; i++) {
-            if(cornerIsSelected && i==selectedCorner){
+            if(i==selectedCorner){
                 ofSetColor(drawSettings.selectedCornerColor);
             }else{
                 ofSetColor(drawSettings.cornersColor);
@@ -227,10 +226,10 @@ void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
-    if(cornerIsSelected && selectedCorner >= 0){
+    if(selectedCorner != -1){
         corners[selectedCorner] = glm::vec2(args.x, args.y);
+        processMatrices();
     }
-    processMatrices();
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
@@ -238,7 +237,6 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
     float smallestDist = sqrtf(ofGetWidth() * ofGetWidth() + ofGetHeight() * ofGetHeight());
     float sensFactor = cornerSensibility * sqrtf( width  * width  + height  * height );
 
-    cornerIsSelected = false;
     selectedCorner = -1;
 
     for(int i = 0; i < 4; i++){
@@ -249,14 +247,13 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
         if(dist < smallestDist && dist < sensFactor ){
             selectedCorner = i;
             smallestDist = dist;
-            cornerIsSelected=true;
         }
     }
 }
 
 //--------------------------------------------------------------
 void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
-    if (cornerIsSelected && selectedCorner >= 0) {
+    if (selectedCorner != -1) {
         switch (args.key) {
             case OF_KEY_DOWN:
                 corners[selectedCorner] += glm::vec2(0,1);
@@ -389,7 +386,11 @@ ofRectangle ofxGLWarper::getBaseRectangle(){
 }
 //--------------------------------------------------------------
 bool ofxGLWarper::getCornerIsSelected(){
-    return cornerIsSelected;
+    if (selectedCorner != -1){
+        return true;
+    }else{
+        return false;
+    }
 }
 //--------------------------------------------------------------
     // When no corner is selected ( getCornerIsSelected() == false ) :

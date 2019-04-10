@@ -104,7 +104,6 @@ private:
     int selectedCorner;
     glm::mat4 myMatrix;
     float cornerSensibility;
-    bool cornerIsSelected;
     bool bUseKeys = false; // false before a setup
     bool bUseMouse = false; // false before a setup
 };
