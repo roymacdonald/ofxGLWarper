@@ -76,7 +76,10 @@ public:
     void setAllCorners(glm::vec2 &top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right);
     void moveAllCorners(glm::vec2 &moveBy);
     void moveAllCorners(float byX, float byY);
+
     ofRectangle getBaseRectangle(); // gets you the rect used to setup
+    bool getCornerIsSelected();
+    CornerLocation getSelectedCornerLocation();
 
     void setCornerSensibility(float sensibility);
     float getCornerSensibility();

@@ -159,7 +159,7 @@ void ofxGLWarper::end(){
     if ((drawSettings.bDrawCorners && active) || (drawSettings.bDrawCorners && drawSettings.bForceDrawing)) {// this draws colored squares over the corners as a visual aid.
         ofSetRectMode(OF_RECTMODE_CENTER);
         for (int i = 0; i < 4; i++) {
-            if(i==selectedCorner){
+            if(cornerIsSelected && i==selectedCorner){
                 ofSetColor(drawSettings.selectedCornerColor);
             }else{
                 ofSetColor(drawSettings.cornersColor);
@@ -236,10 +236,11 @@ void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
 
     float smallestDist = sqrtf(ofGetWidth() * ofGetWidth() + ofGetHeight() * ofGetHeight());
-    //selectedCorner = -1;
     float sensFactor = cornerSensibility * sqrtf( width  * width  + height  * height );
 
     cornerIsSelected = false;
+    selectedCorner = -1;
+
     for(int i = 0; i < 4; i++){
         float distx = corners[i]->x - args.x;
         float disty = corners[i]->y - args.y;
@@ -385,6 +386,17 @@ glm::vec2 ofxGLWarper::getCorner(CornerLocation cornerLocation){
 //--------------------------------------------------------------
 ofRectangle ofxGLWarper::getBaseRectangle(){
     return ofRectangle(x,y,width,height); // gets you the rect used to setup
+}
+//--------------------------------------------------------------
+bool ofxGLWarper::getCornerIsSelected(){
+    return cornerIsSelected;
+}
+//--------------------------------------------------------------
+    // When no corner is selected ( getCornerIsSelected() == false ) :
+    // getSelectedCornerLocation() < static_cast<ofxGLWarper::CornerLocation>(0)
+ofxGLWarper::CornerLocation ofxGLWarper::getSelectedCornerLocation(){
+    ofxGLWarper::CornerLocation corner_loc = static_cast<ofxGLWarper::CornerLocation>(selectedCorner);
+    return corner_loc;
 }
 //--------------------------------------------------------------
 void ofxGLWarper::setCornerSensibility(float sensibility){
