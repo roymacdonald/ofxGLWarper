@@ -77,6 +77,10 @@ public:
     void moveAllCorners(const glm::vec2 &moveBy);
     void moveAllCorners(float byX, float byY);
 
+    ofRectangle getBaseRectangle(); // gets you the rect used to setup
+    bool getCornerIsSelected();
+    CornerLocation getSelectedCornerLocation();
+
     void setCornerSensibility(float sensibility);
     float getCornerSensibility();
 
@@ -103,7 +107,6 @@ private:
 	
     glm::mat4 myMatrix;
     float cornerSensibility;
-    bool cornerIsSelected;
     bool bUseKeys = false; // false before a setup
     bool bUseMouse = false; // false before a setup
 };
