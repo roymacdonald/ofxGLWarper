@@ -35,14 +35,14 @@ public:
 		
 	void mouseDragged(ofMouseEventArgs &args);
 	void mousePressed(ofMouseEventArgs &args);
-    void mouseReleased(ofMouseEventArgs &args){}
+	void mouseReleased(ofMouseEventArgs &args);
     void mouseMoved(ofMouseEventArgs &args){}
     void mouseScrolled(ofMouseEventArgs &args){}
     void mouseEntered(ofMouseEventArgs &args){}
     void mouseExited(ofMouseEventArgs &args){}
     void keyPressed(ofKeyEventArgs &args);
-    void keyReleased(ofKeyEventArgs &args){}
-    
+	void keyReleased(ofKeyEventArgs &args);
+	
     void processMatrices();
 
     void save(const string& saveFile = "warpConfig.xml");
@@ -62,19 +62,19 @@ public:
     void toggleMouse();
 
     glm::vec4 fromScreenToWarpCoord(float x,float y,float z = 0);
-    glm::vec4 fromScreenToWarpCoord(glm::vec4 &position);
+    glm::vec4 fromScreenToWarpCoord(const glm::vec4 &position);
     glm::vec4 fromWarpToScreenCoord(float x,float y,float z = 0);
-    glm::vec4 fromWarpToScreenCoord(glm::vec4 &position);
+    glm::vec4 fromWarpToScreenCoord(const glm::vec4 &position);
 
     void selectCorner(CornerLocation cornerLocation);
-    void setCorner(CornerLocation cornerLocation, glm::vec2 &onScreenLocation);
+    void setCorner(CornerLocation cornerLocation, const glm::vec2 &onScreenLocation);
     void setCorner(CornerLocation cornerLocation, float onScreenLocationX, float onScreenLocationY);
-    void moveCorner(CornerLocation cornerLocation, glm::vec2 &moveBy);
+    void moveCorner(CornerLocation cornerLocation, const glm::vec2 &moveBy);
     void moveCorner(CornerLocation cornerLocation, float byX, float byY);
     glm::vec2 getCorner(CornerLocation cornerLocation);
 
-    void setAllCorners(glm::vec2 &top_left, glm::vec2 &top_right, glm::vec2 &bot_left, glm::vec2 &bot_right);
-    void moveAllCorners(glm::vec2 &moveBy);
+    void setAllCorners(const glm::vec2 &top_left, const glm::vec2 &top_right, const glm::vec2 &bot_left, const glm::vec2 &bot_right);
+    void moveAllCorners(const glm::vec2 &moveBy);
     void moveAllCorners(float byX, float byY);
 
     void setCornerSensibility(float sensibility);
@@ -98,6 +98,9 @@ private:
 	int	 height; // height of the quad to work with
     bool active = false;
     int selectedCorner;
+	bool bMoveAll = false;
+	glm::vec2 mousePressPos;
+	
     glm::mat4 myMatrix;
     float cornerSensibility;
     bool cornerIsSelected;
