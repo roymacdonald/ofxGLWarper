@@ -408,3 +408,18 @@ void ofxGLWarper::setCornerSensibility(float sensibility){
 float ofxGLWarper::getCornerSensibility(){
     return cornerSensibility;
 }
+//--------------------------------------------------------------
+ofRectangle ofxGLWarper::getBaseRectangle(){
+	return ofRectangle(x,y,width,height); // gets you the rect used to setup
+}
+//--------------------------------------------------------------
+bool ofxGLWarper::getCornerIsSelected(){
+	return cornerIsSelected && selectedCorner >= 0;
+}
+//--------------------------------------------------------------
+// When no corner is selected ( getCornerIsSelected() == false ) :
+// getSelectedCornerLocation() < static_cast<ofxGLWarper::CornerLocation>(0)
+ofxGLWarper::CornerLocation ofxGLWarper::getSelectedCornerLocation(){
+	ofxGLWarper::CornerLocation corner_loc = static_cast<ofxGLWarper::CornerLocation>(selectedCorner);
+	return corner_loc;
+}
