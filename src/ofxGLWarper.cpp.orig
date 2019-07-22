@@ -30,20 +30,11 @@ void ofxGLWarper::setup(int _x, int _y, int _w, int _h){
     y=_y;
     width=_w;
     height=_h;
-    selectedCorner = -1;
-    cornerIsSelected = false;
+    selectedCorner = -1; // == -1 when no corner is selected.
     cornerSensibility = 0.5;
     bUseKeys = true;
     bUseMouse = true;
 
-	if(cornersPoly.size() != 4){
-		cornersPoly.clear();
-		for(int i = 0; i < 4; i++){
-			cornersPoly.addVertex(corners[i]->x, corners[i]->y);
-		}
-		cornersPoly.close();
-	}
-	
     processMatrices();
 }
 
@@ -144,17 +135,6 @@ void ofxGLWarper::processMatrices(){
 
     //figure out the warping!
     myMatrix = ofxHomography::findHomography(cvsrc, cvdst);
-	
-	
-	if(cornersPoly.size() == 4){
-	
-		auto& v = cornersPoly.getVertices();
-		for(int i = 0; i < 4; i++){
-			v[i] =  {corners[i]->x, corners[i]->y, 0};
-		}
-	}else{
-		ofLogError("ofxGLWarper::processMatrices") << "cornersPoly size is not 4. Probably setup() was not called!";
-	}
 
 }
 //--------------------------------------------------------------
@@ -246,31 +226,34 @@ void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
-	if(!ofGetKeyPressed(OF_KEY_SHIFT) && bMoveAll){
-		bMoveAll = false;
-	}
+<<<<<<< HEAD
 	if(bMoveAll){
 		moveAllCorners(args - mousePressPos);
 		mousePressPos = args;
 	}else{
 	if(cornerIsSelected && selectedCorner >= 0){
+=======
+    if(selectedCorner != -1){
+>>>>>>> 4253ed6162d88bd7f864284d9e39155a39881ef4
         corners[selectedCorner] = glm::vec2(args.x, args.y);
+        processMatrices();
     }
+<<<<<<< HEAD
 	}
     processMatrices();
+=======
+>>>>>>> 4253ed6162d88bd7f864284d9e39155a39881ef4
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
-	if(ofGetKeyPressed(OF_KEY_SHIFT) && cornersPoly.inside(args.x, args.y)){
-		bMoveAll = true;
+	if(bMoveAll){
 		mousePressPos = args;
 	}else{
-		bMoveAll = false;
     float smallestDist = sqrtf(ofGetWidth() * ofGetWidth() + ofGetHeight() * ofGetHeight());
-    //selectedCorner = -1;
     float sensFactor = cornerSensibility * sqrtf( width  * width  + height  * height );
 
-    cornerIsSelected = false;
+    selectedCorner = -1;
+
     for(int i = 0; i < 4; i++){
         float distx = corners[i]->x - args.x;
         float disty = corners[i]->y - args.y;
@@ -279,7 +262,6 @@ void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
         if(dist < smallestDist && dist < sensFactor ){
             selectedCorner = i;
             smallestDist = dist;
-            cornerIsSelected=true;
         }
     }
 	}
@@ -290,8 +272,15 @@ void ofxGLWarper::mouseReleased(ofMouseEventArgs &args){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
-
+<<<<<<< HEAD
+	if(args.hasModifier(OF_KEY_SHIFT)){
+		cout << "shift" << endl;
+	   bMoveAll = true;
+	}else
     if (cornerIsSelected && selectedCorner >= 0) {
+=======
+    if (selectedCorner != -1) {
+>>>>>>> 4253ed6162d88bd7f864284d9e39155a39881ef4
         switch (args.key) {
             case OF_KEY_DOWN:
                 corners[selectedCorner] += glm::vec2(0,1);
@@ -316,7 +305,7 @@ void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::keyReleased(ofKeyEventArgs &args){
-	
+	bMoveAll = false;
 }
  //--------------------------------------------------------------
 glm::vec4 ofxGLWarper::fromScreenToWarpCoord(float x, float y, float z){
@@ -422,25 +411,29 @@ glm::vec2 ofxGLWarper::getCorner(CornerLocation cornerLocation){
     return corners[cornerLocation];// * glm::vec2(width, height);
 }
 //--------------------------------------------------------------
+ofRectangle ofxGLWarper::getBaseRectangle(){
+    return ofRectangle(x,y,width,height); // gets you the rect used to setup
+}
+//--------------------------------------------------------------
+bool ofxGLWarper::getCornerIsSelected(){
+    if (selectedCorner != -1){
+        return true;
+    }else{
+        return false;
+    }
+}
+//--------------------------------------------------------------
+    // When no corner is selected ( getCornerIsSelected() == false ) :
+    // getSelectedCornerLocation() < static_cast<ofxGLWarper::CornerLocation>(0)
+ofxGLWarper::CornerLocation ofxGLWarper::getSelectedCornerLocation(){
+    ofxGLWarper::CornerLocation corner_loc = static_cast<ofxGLWarper::CornerLocation>(selectedCorner);
+    return corner_loc;
+}
+//--------------------------------------------------------------
 void ofxGLWarper::setCornerSensibility(float sensibility){
     cornerSensibility = sensibility;
 }
 //--------------------------------------------------------------
 float ofxGLWarper::getCornerSensibility(){
     return cornerSensibility;
-}
-//--------------------------------------------------------------
-ofRectangle ofxGLWarper::getBaseRectangle(){
-	return ofRectangle(x,y,width,height); // gets you the rect used to setup
-}
-//--------------------------------------------------------------
-bool ofxGLWarper::getCornerIsSelected(){
-	return cornerIsSelected && selectedCorner >= 0;
-}
-//--------------------------------------------------------------
-// When no corner is selected ( getCornerIsSelected() == false ) :
-// getSelectedCornerLocation() < static_cast<ofxGLWarper::CornerLocation>(0)
-ofxGLWarper::CornerLocation ofxGLWarper::getSelectedCornerLocation(){
-	ofxGLWarper::CornerLocation corner_loc = static_cast<ofxGLWarper::CornerLocation>(selectedCorner);
-	return corner_loc;
 }

@@ -97,6 +97,7 @@ public:
     drawSettings drawSettings;
 
 private:
+	ofPolyline cornersPoly;
 	int x, y;
 	int  width; //width of the quad to work with
 	int	 height; // height of the quad to work with
