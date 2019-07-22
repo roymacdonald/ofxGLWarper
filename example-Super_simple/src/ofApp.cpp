@@ -30,7 +30,10 @@ void ofApp::draw(){
 
 	warper.end();
 	
-	ofDrawBitmapString("Just drag the corners of the image for it to warp.", 20, 100);
+	stringstream ss;
+	ss <<"Just drag the corners of the image for it to warp." << endl;
+	ss << "Press and hold the shift key, then clic and drag over the image to move it.";
+	ofDrawBitmapString(ss.str(), 20, 100);
 	
 }
 //--------------------------------------------------------------
