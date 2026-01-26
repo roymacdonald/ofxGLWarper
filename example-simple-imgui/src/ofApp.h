@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxGLWarperImGui.h"
 #include "ofxImGui.h"
+#include "ofxGLWarperImGui.h"
 
 class ofApp : public ofBaseApp{
 	
@@ -19,7 +19,11 @@ class ofApp : public ofBaseApp{
 		void mousePressed(int x, int y, int button);
 		void mouseReleased();
 
+        // Note: If your compiiler can't find the `ofxGLWarperImGui` type :
+        // You need to add `ofxAddons_ENABLE_IMGUI` to your project settings !
+        // (of0.12.0's PG doesn't add them correctly. of0.12.1 should be ok)
         ofxGLWarperImGui warper;
+    
         ofxImGui::Gui gui;
         ofImage img;
 };
