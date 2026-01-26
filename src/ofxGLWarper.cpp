@@ -1,5 +1,8 @@
 #include "ofxGLWarper.h"
 #include "ofxHomography.h"
+#ifdef ofxAddons_ENABLE_IMGUI
+#   include "imgui.h"
+#endif
 
 ofxGLWarper::~ofxGLWarper(){
     deactivate();
@@ -246,6 +249,10 @@ void ofxGLWarper::loadFromXml(ofXml &XML, const string& warperID){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
+#ifdef ofxAddons_ENABLE_IMGUI
+	if(ImGui::GetIO().WantCaptureMouse) return;
+#endif
+
 	if(!ofGetKeyPressed(OF_KEY_SHIFT) && bMoveAll){
 		bMoveAll = false;
 	}
@@ -261,6 +268,10 @@ void ofxGLWarper::mouseDragged(ofMouseEventArgs &args){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::mousePressed(ofMouseEventArgs &args){
+#ifdef ofxAddons_ENABLE_IMGUI
+	if(ImGui::GetIO().WantCaptureMouse) return;
+#endif
+
 	if(ofGetKeyPressed(OF_KEY_SHIFT) && cornersPoly.inside(args.x, args.y)){
 		bMoveAll = true;
 		mousePressPos = args;
@@ -290,7 +301,9 @@ void ofxGLWarper::mouseReleased(ofMouseEventArgs &args){
 }
 //--------------------------------------------------------------
 void ofxGLWarper::keyPressed(ofKeyEventArgs &args){
-
+#ifdef ofxAddons_ENABLE_IMGUI
+    if(ImGui::GetIO().WantCaptureKeyboard) return;
+#endif
     if (cornerIsSelected && selectedCorner >= 0) {
         switch (args.key) {
             case OF_KEY_DOWN:

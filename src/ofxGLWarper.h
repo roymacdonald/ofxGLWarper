@@ -96,7 +96,7 @@ public:
     };
     drawSettings drawSettings;
 
-private:
+protected:
 	ofPolyline cornersPoly;
 	int x, y;
 	int  width; //width of the quad to work with
