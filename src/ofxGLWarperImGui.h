@@ -14,7 +14,9 @@ public:
 
 	bool isEnabled() const;
 	void drawImGuiWidget(ofRectangle resetDimension = ofGetWindowRect());
+
 	bool bEnableQuadWarper = false;
+	bool bDrawActiveImGuiCorners = true;
 };
 
 #endif // _GL_WARPERIMGUI

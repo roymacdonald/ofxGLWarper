@@ -5,6 +5,15 @@
 
 namespace ImGuiEx {
     namespace ofxGLWarper {
+        // Duplicated from : ofxSimpleApp/ofxSimpleAppUtils.cpp (like imgui_demo.cpp, improved)
+        void ShowHelpTooltip(const char* text){
+            if(ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal)){
+                if(ImGui::BeginTooltip()){
+                    ImGui::Text("%s", text);
+                    ImGui::EndTooltip();
+                }
+            }
+        }
         // Duplicated from : ofxSimpleApp/ofxSimpleAppUtils.cpp
         bool DragPad2(const char* label, ImVec2& vec){
             // Calc some dimensions
@@ -13,6 +22,7 @@ namespace ImGuiEx {
             bool ret = false;
             availableSpace.x -= availableSpace.y + (ImGui::GetStyle().ItemSpacing.x*2.f);// + (ImGui::GetStyle().ItemInnerSpacing.x*4.f);
 
+            ImGui::BeginGroup();
             ImGui::PushID(label);
             ImGui::SetNextItemWidth(availableSpace.x*.5f);
             if(ImGui::DragFloat("##x", &vec.x, 1.f, 0.f, 10000, "%1.0f")){
@@ -48,10 +58,13 @@ namespace ImGuiEx {
                 fromValue = vec;
                 beingDragged = (void*) label;
             }
+            ImGuiEx::ofxGLWarper::ShowHelpTooltip("Drag to translate");
             ImGui::PopID();
+            ImGui::EndGroup();
             return ret;
         }
     }
+
 }
 
 //using namespace ImGuiEx::ofxGLWarper;
@@ -102,11 +115,25 @@ void ofxGLWarperImGui::drawImGuiWidget(ofRectangle resetDimension){
         { "BR", ofxGLWarper::BOTTOM_RIGHT},
         { "BL", ofxGLWarper::BOTTOM_LEFT}
     };
+    std::size_t i = 0u;
+    static int activeCornerImGui = -1;
     for(auto& cornerMode : cornerModes){
         ImVec2 corner = getCorner(cornerMode.second);
         if(ImGuiEx::ofxGLWarper::DragPad2(cornerMode.first, corner)){
             setCorner(cornerMode.second, corner);
         }
+        if(bDrawActiveImGuiCorners  && (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem | ImGuiHoveredFlags_Stationary) || ImGui::IsItemActive())){
+            selectedCorner = i;
+            activeCornerImGui = i;
+            drawSettings.bDrawCorners = true;
+            drawSettings.bForceDrawing = true;
+        }
+        else if(activeCornerImGui==i && selectedCorner == i){
+            selectedCorner = -1;
+            activeCornerImGui = -1;
+            drawSettings.bForceDrawing = false;
+        }
+        i++;
     }
 }
 #endif

@@ -9,6 +9,7 @@ Based on the openGL image warper example by Theo Watson.
 * Get screen-to-warpped-coordinates and warpped-to-screen-coordinates methods.
 * Setup now requires the resolution of the screen to be passed making it much more flexible.
 * Events triggered when warping changes, allowing complex interactions.
+* Optional ofxImGui support (control widget).
 
 ### Contributors (many thanks!)
 * [Paulo Barcelos](https://github.com/paulobarcelos)
